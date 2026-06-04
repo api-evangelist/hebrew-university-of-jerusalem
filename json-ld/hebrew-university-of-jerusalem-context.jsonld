@@ -1,0 +1,60 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "huji": "https://en.huji.ac.il/ns#",
+    "@vocab": "https://schema.org/",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "logo": "schema:logo",
+    "sameAs": "schema:sameAs",
+    "foundingDate": "schema:foundingDate",
+    "location": "schema:location",
+    "department": "schema:department",
+    "library": {
+      "@id": "huji:library",
+      "@type": "schema:Library"
+    },
+    "discoveryService": {
+      "@id": "huji:discoveryService",
+      "@type": "schema:WebAPI"
+    },
+    "catalogItem": {
+      "@id": "huji:catalogItem",
+      "@type": "schema:CreativeWork"
+    },
+    "scholarProfile": {
+      "@id": "huji:scholarProfile",
+      "@type": "schema:ProfilePage"
+    },
+    "publication": {
+      "@id": "huji:publication",
+      "@type": "schema:ScholarlyArticle"
+    },
+    "course": {
+      "@id": "huji:course",
+      "@type": "schema:Course"
+    }
+  },
+  "@type": "CollegeOrUniversity",
+  "@id": "https://en.huji.ac.il/",
+  "name": "Hebrew University of Jerusalem",
+  "url": "https://en.huji.ac.il/",
+  "description": "Israel's leading research university (HUJI), operating campuses in Jerusalem, Rehovot, and Eilat across the humanities, sciences, medicine, and law.",
+  "sameAs": [
+    "https://www.linkedin.com/school/hebrew-university-of-jerusalem/",
+    "https://github.com/huji-nlp"
+  ],
+  "department": [
+    {
+      "@type": "Library",
+      "name": "HUJI Library Authority (Discovery / Ex Libris Primo/Alma)",
+      "url": "https://en.libraries.huji.ac.il/"
+    },
+    {
+      "@type": "WebSite",
+      "name": "OpenScholar @ HUJI",
+      "url": "https://scholars.huji.ac.il/"
+    }
+  ]
+}

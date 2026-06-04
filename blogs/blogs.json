@@ -1,0 +1,21 @@
+{
+  "repo": "hebrew-university-of-jerusalem",
+  "feeds": [
+    {
+      "source": "https://en.huji.ac.il/",
+      "feed_url": "https://en.huji.ac.il/latest-news",
+      "title": "Hebrew University of Jerusalem - Latest News",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://en.libraries.huji.ac.il/",
+      "feed_url": "https://en.libraries.huji.ac.il/news",
+      "title": "HUJI Library Authority - News",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-03T00:00:00Z"
+}
