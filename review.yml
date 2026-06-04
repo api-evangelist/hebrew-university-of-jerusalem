@@ -1,0 +1,44 @@
+---
+name: Hebrew University of Jerusalem
+description: Hebrew University of Jerusalem public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/hebrew-university-of-jerusalem/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 1
+    summary: >-
+      No dedicated public developer portal or documented self-service API was
+      found for HUJI. Verified live: the official English site, the Library
+      Authority site, the OpenScholar platform, and the Ex Libris Primo hosted
+      host (all HTTP 200). Library discovery runs on Ex Libris Primo/Alma,
+      which has standard APIs/OAI-PMH but requires institution-issued keys and
+      is not publicly self-service. SSO is Shibboleth/SAML and internal.
+      Several HUJI research labs publish open-source code on GitHub (huji-nlp,
+      slp-rl, etc.) but these are code repositories, not institutional REST
+      APIs. No endpoints were fabricated; only confirmed properties listed.
+    endpoints:
+      - url: https://en.huji.ac.il/
+        status: 200
+        note: Official English website; no developer/API links.
+      - url: https://www.huji.ac.il/
+        status: 200
+        note: Primary institutional website.
+      - url: https://en.libraries.huji.ac.il/
+        status: 200
+        note: Library Authority; catalog runs on Ex Libris Primo/Alma (HUfind).
+      - url: https://scholars.huji.ac.il/
+        status: 200
+        note: OpenScholar profile/CMS platform; no documented public API.
+      - url: https://huji-primo.hosted.exlibrisgroup.com/
+        status: 200
+        note: Ex Libris Primo discovery host; APIs require institution keys.
+      - url: https://github.com/huji-nlp
+        status: 200
+        note: HUJI NLP Lab open-source GitHub org (code, not a REST API).
+      - url: https://github.com/slp-rl
+        status: 200
+        note: HUJI Spoken Language Processing Lab GitHub org.
+      - url: https://www.linkedin.com/school/hebrew-university-of-jerusalem/
+        status: 999
+        note: LinkedIn school page; 999 is LinkedIn anti-bot, page exists.
