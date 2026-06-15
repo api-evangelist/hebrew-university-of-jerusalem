@@ -6,7 +6,8 @@
       "feed_url": "https://en.huji.ac.il/latest-news",
       "title": "Hebrew University of Jerusalem - Latest News",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "No API/developer blog found; news page has no dated posts in target range"
     },
     {
       "source": "https://en.libraries.huji.ac.il/",
@@ -17,5 +18,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-03T00:00:00Z"
+  "fetched": "2026-06-07T00:00:00Z"
 }
