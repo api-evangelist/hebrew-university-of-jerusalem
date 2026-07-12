@@ -1,0 +1,28 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: en.huji.ac.il
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  9 14:47:50 2026 GMT
+  hsts: false
+- host: en.libraries.huji.ac.il
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  9 12:59:18 2026 GMT
+  hsts: false
+- host: scholars.huji.ac.il
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  9 14:47:50 2026 GMT
+  hsts: false
+domains:
+- domain: huji.ac.il
+  dnssec: false
+  caa:
+  - 0 issuewild "harica.gr"
+  - 0 issue "harica.gr"
+  spf: true
+  dmarc: true
+  dmarc_policy: none
