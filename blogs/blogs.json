@@ -7,16 +7,17 @@
       "title": "Hebrew University of Jerusalem - Latest News",
       "saved": 0,
       "method": "none",
-      "error": "No API/developer blog found; news page has no dated posts in target range"
+      "error": "parse_failed"
     },
     {
       "source": "https://en.libraries.huji.ac.il/",
       "feed_url": "https://en.libraries.huji.ac.il/news",
       "title": "HUJI Library Authority - News",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-21T17:00:00Z"
+  "fetched": "2026-07-11T11:43:46Z"
 }
