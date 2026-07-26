@@ -1,4 +1,3 @@
----
 aid: hebrew-university-of-jerusalem
 name: Hebrew University of Jerusalem
 description: >-
@@ -13,9 +12,21 @@ description: >-
   (internal/gated), and a number of research-lab open-source GitHub
   organizations. No public, self-service API endpoints were confirmed.
 type: Index
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+    - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hebrew-university-of-jerusalem.png
 url: https://raw.githubusercontent.com/api-evangelist/hebrew-university-of-jerusalem/refs/heads/main/apis.yml
 tags:
   - Education
@@ -25,36 +36,9 @@ tags:
   - Library
   - Israel
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-07-25'
 specificationVersion: '0.19'
-apis:
-  - aid: hebrew-university-of-jerusalem:library-discovery
-    name: HUJI Library Discovery (Ex Libris Primo/Alma)
-    description: >-
-      The Hebrew University Library Authority runs its catalog and discovery
-      on Ex Libris Primo/Alma (HUfind). Ex Libris provides standard Primo and
-      Alma REST APIs and OAI-PMH publishing, but these are not exposed as a
-      public, self-service developer program by HUJI and require
-      institution-issued credentials. No public, documented HUJI-specific API
-      endpoint or key signup was confirmed.
-    humanURL: https://en.libraries.huji.ac.il/
-    tags: [ Library, Discovery, Primo, Alma, Catalog ]
-    properties:
-      - type: Documentation
-        url: https://en.libraries.huji.ac.il/
-  - aid: hebrew-university-of-jerusalem:openscholar
-    name: OpenScholar @ HUJI
-    description: >-
-      OpenScholar is HUJI's Drupal-based website-building and content
-      management platform for faculty, labs, and academic projects, hosting
-      profiles, publications, CVs, courses, and events. It is an internal
-      authoring tool; no public, documented developer API for OpenScholar at
-      HUJI was confirmed.
-    humanURL: https://scholars.huji.ac.il/
-    tags: [ Research, Profiles, CMS, Publications ]
-    properties:
-      - type: Documentation
-        url: https://scholars.huji.ac.il/
+apis: []
 common:
   - type: DomainSecurity
     url: security/hebrew-university-of-jerusalem-domain-security.yml
@@ -76,6 +60,10 @@ common:
     url: blogs/blogs.json
   - type: JSONLD
     url: json-ld/hebrew-university-of-jerusalem-context.jsonld
+  - type: ProductPage
+    url: https://en.libraries.huji.ac.il/
+  - type: ProductPage
+    url: https://scholars.huji.ac.il/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
