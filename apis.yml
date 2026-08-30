@@ -67,8 +67,6 @@ common:
     url: finops/hebrew-university-of-jerusalem-finops.yml
   - type: Review
     url: review.yml
-  - type: Blog
-    url: blogs/blogs.json
   - type: JSONLD
     url: json-ld/hebrew-university-of-jerusalem-context.jsonld
   - type: ProductPage
