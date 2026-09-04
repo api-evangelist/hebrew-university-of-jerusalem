@@ -1,17 +1,26 @@
 aid: hebrew-university-of-jerusalem
 name: Hebrew University of Jerusalem
-description: >-
-  The Hebrew University of Jerusalem (HUJI) is Israel's leading research
-  university, ranked #272 in the QS World University Rankings 2025. It operates
-  multiple campuses in Jerusalem, Rehovot, and Eilat across the humanities,
-  sciences, medicine, and law. HUJI does not publish a dedicated public
-  developer portal or documented open API program. Its developer-relevant
-  surface is limited to standards-based academic infrastructure: an Ex Libris
-  Primo/Alma library discovery system (whose APIs require institution-issued
-  keys), the OpenScholar profile/CMS platform, Shibboleth/SAML single sign-on
-  (internal/gated), and a number of research-lab open-source GitHub
-  organizations. No public, self-service API endpoints were confirmed.
+description: 'The Hebrew University of Jerusalem (HUJI, האוניברסיטה העברית בירושלים) is Israel''s leading
+  research university, founded in 1918 and operating campuses in Jerusalem, Rehovot and Eilat across the
+  humanities, sciences, medicine, agriculture and law. It publishes no developer portal, no API documentation,
+  no API keys and no terms of use for machine access — api.huji.ac.il, developer.huji.ac.il and data.huji.ac.il
+  do not resolve at all. What it does operate, on its own infrastructure and without anyone advertising
+  it, are two genuinely institution-run programmable surfaces. The first is the JSON API behind Shnaton,
+  the official course catalog at shnaton.huji.ac.il: fully public, entirely unauthenticated, bilingual
+  Hebrew/English, covering faculties, degree programs, specializations, courses, timetabled study sessions
+  and syllabi for academic years 2020 through 2027, with a single unauthenticated search call returning
+  the whole 6,355-course catalog in one 14 MB response. The second is the university''s own SAML 2.0 identity
+  provider at idp.cc.huji.ac.il, which publishes live machine-readable metadata signed with a certificate
+  the institution issued to itself. Both were confirmed institution-operated by IP ownership rather than
+  hostname — they resolve inside the 128.139.0.0/16 ILAN allocation registered to IUCC and announced by
+  AS378, behind the university''s own load balancers. Beyond those two, the footprint is tenancy: the
+  research portal at cris.huji.ac.il is Elsevier Pure (a CNAME to huji.elsevierpure.com) and its working
+  OAI-PMH endpoint is Pure''s engineering, and library discovery runs on Ex Libris Primo under institution
+  code 972HUJI_INST. Those relationships are recorded here; their vendors'' contracts deliberately are
+  not.'
 type: Index
+x-type: university
+x-category: Public Research University
 deliveryModel:
   model: saas
   open_source: false
@@ -35,44 +44,344 @@ accessModel:
     - plans
   generated: '2026-07-22'
   method: derived
-position: Consumer
+position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hebrew-university-of-jerusalem.png
 url: https://raw.githubusercontent.com/api-evangelist/hebrew-university-of-jerusalem/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
-  - University
-  - Research
-  - Library
-  - Israel
+- University
+- Higher Education
+- Education
+- Research
+- Israel
+- Jerusalem
+- Course Catalog
+- Identity Federation
+- Research Repository
+- Library
+- SAML
+- OAI-PMH
+- Open Access
+- Public Research University
 created: '2026-06-03'
-modified: '2026-07-25'
+modified: '2026-09-01'
 specificationVersion: '0.23'
-apis: []
-common:
-  - type: DomainSecurity
-    url: security/hebrew-university-of-jerusalem-domain-security.yml
-  - type: Website
-    url: https://en.huji.ac.il/
-  - type: GitHub
-    url: https://github.com/huji-nlp
-  - type: LinkedIn
-    url: https://www.linkedin.com/school/hebrew-university-of-jerusalem/
-  - type: Plans
-    url: plans/hebrew-university-of-jerusalem-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/hebrew-university-of-jerusalem-rate-limits.yml
-  - type: FinOps
-    url: finops/hebrew-university-of-jerusalem-finops.yml
-  - type: Review
-    url: review.yml
+apis:
+- aid: hebrew-university-of-jerusalem:shnaton-course-catalog
+  name: Shnaton Course Catalog API
+  description: 'The public JSON API behind shnaton.huji.ac.il, the Hebrew University''s official course
+    catalog. Faculties, departments, degree programs, specializations, study roadmaps, courses, course
+    groups, timetabled study sessions and syllabi, bilingual Hebrew/English, for academic years 2020-2027.
+    Unauthenticated and unpaginated: an anonymous POST to /courses/search-advanced returned 6,355 courses
+    in a single 14,153,560-byte response on 2026-09-01. The university publishes no contract for it —
+    the OpenAPI in this repository was derived by API Evangelist from the catalog''s own JavaScript client
+    and then verified operation by operation against the production host.'
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Course Catalog
+  - Registrar
+  - Timetable
+  - Syllabus
+  - Open Access
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
   - type: JSONLD
-    url: json-ld/hebrew-university-of-jerusalem-context.jsonld
-  - type: ProductPage
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
+  x-operator: institution
+  x-operator-basis: 'shnaton.huji.ac.il CNAME -> orb-bif5.cc.huji.ac.il -> 128.139.7.32, inside RIPE inetnum
+    128.139.0.0/16 "ILAN" (registrant ORG-IIIC1-RIPE, IUCC), announced by AS378 MACHBA-AS. TLS subject
+    C=IL, L=Jerusalem, O=The Hebrew University of Jerusalem, CN=*.huji.ac.il via GEANT TCS. Response header
+    X-HujiShnatonServer: Server 2. No vendor anywhere in the chain.'
+  x-verified: '2026-09-01'
+- aid: hebrew-university-of-jerusalem:saml-idp
+  name: Hebrew University of Jerusalem SAML 2.0 Identity Provider
+  description: 'The university''s own SimpleSAMLphp identity provider, publishing a live SAML 2.0 EntityDescriptor
+    (HTTP 200, application/xml, 4,548 bytes) with IDPSSODescriptor, HTTP-Redirect SSO and SLO bindings,
+    emailAddress NameID format, and signing and encryption key descriptors. The signing certificate is
+    self-issued by the institution — O=Hebrew University, OU=The authority for computation,communication
+    and information, CN=idp1.cc.huji.ac.il — and it fronts the university''s authenticated estate including
+    the Elsevier Pure CRIS. This is the strongest machine-readable contract the institution itself publishes.
+    Note: the signing certificate expires 2026-09-22.'
+  humanURL: https://idp.cc.huji.ac.il/
+  baseURL: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+  tags:
+  - Identity Federation
+  - SAML
+  - Single Sign-On
+  - SimpleSAMLphp
+  properties:
+  - type: IdentityFederation
+    url: identity-federation/hebrew-university-of-jerusalem-identity-federation.yml
+  - type: Metadata
+    url: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+  - type: Conformance
+    url: conformance/hebrew-university-of-jerusalem-conformance.yml
+  x-operator: institution
+  x-operator-basis: idp.cc.huji.ac.il has no CNAME and resolves directly to 128.139.7.22 in RIPE inetnum
+    128.139.0.0/16 "ILAN" (registrant IUCC), AS378. The SAML signing certificate is issued by the university
+    to itself, naming its Authority for Computation, Communication and Information. No managed identity
+    vendor and no cloud address space in the path.
+  x-verified: '2026-09-01'
+- aid: hebrew-university-of-jerusalem:cris-pure
+  name: HUJI Research Portal / CRIS (Elsevier Pure tenant)
+  description: The university's current research information system and research-output portal at cris.huji.ac.il,
+    running on Elsevier Pure. It publishes a working OAI-PMH 2.0 repository at /ws/oai which answered
+    Identify, ListMetadataFormats (oai_dc, mods, qdc, mods_swepub, xmetadiss, nl_didl, uketd_dc) and ListSets
+    (persons:all, publications:all and per-year sets) on 2026-09-01, with an earliest datestamp of 2021-05-27.
+    The publications, the researcher profiles and the metadata are the university's; the Identify response
+    names 'Pure OAI Repository' with adminEmail noreply@atira.dk, and the Pure API at /ws/api is key-gated
+    (401) behind an Elsevier-issued credential. Tenant relationship recorded; the Pure contract is Elsevier's
+    and is deliberately not saved here.
+  humanURL: https://cris.huji.ac.il/
+  baseURL: https://cris.huji.ac.il/ws/oai
+  tags:
+  - Research Repository
+  - CRIS
+  - OAI-PMH
+  - Research Outputs
+  - Elsevier Pure
+  properties:
+  - type: ResearchRepository
+    url: https://cris.huji.ac.il/
+  - type: OAIPMH
+    url: https://cris.huji.ac.il/ws/oai?verb=Identify
+  - type: Conformance
+    url: conformance/hebrew-university-of-jerusalem-conformance.yml
+  x-operator: tenant
+  x-operator-basis: cris.huji.ac.il CNAME -> huji.elsevierpure.com -> eu.prod.elsevierpure.com (Cloudflare).
+    An institution hostname in front of an Elsevier-operated platform — the CNAME tenancy class. https://huji.elsevierpure.com/
+    redirects to https://cris.huji.ac.il/, confirming the same tenant instance from the vendor side.
+  x-verified: '2026-09-01'
+- aid: hebrew-university-of-jerusalem:primo-discovery
+  name: HUJI Library Discovery (Ex Libris Primo tenant)
+  description: 'Library discovery for the Hebrew University''s library system, running on Ex Libris Primo
+    under institution code 972HUJI_INST with named views 972HUJI_V1 (main), HUJI_THESES (theses collection)
+    and HUJI_NDE. A named institutional scope on a vendor host: the collections, holdings and theses are
+    the university''s, the discovery platform and its APIs are Ex Libris''s and require institution-issued
+    keys the university does not publish. Tenant relationship recorded; no Ex Libris contract is saved
+    here.'
+  humanURL: https://en.libraries.huji.ac.il/
+  baseURL: https://huji.primo.exlibrisgroup.com/discovery/search?vid=972HUJI_INST:972HUJI_V1
+  tags:
+  - Library
+  - Library Catalog
+  - Discovery
+  - Ex Libris Primo
+  properties:
+  - type: LibraryCatalog
+    url: https://huji.primo.exlibrisgroup.com/discovery/search?vid=972HUJI_INST:972HUJI_V1
+  - type: Website
     url: https://en.libraries.huji.ac.il/
-  - type: ProductPage
-    url: https://scholars.huji.ac.il/
+  x-operator: tenant
+  x-operator-basis: huji.primo.exlibrisgroup.com is a generic Ex Libris host, but the institution code
+    972HUJI_INST and the views 972HUJI_V1 / HUJI_THESES / HUJI_NDE are a named HUJI scope on it, linked
+    from the university library site at en.libraries.huji.ac.il. Named tenancy on a vendor platform, not
+    an institution-operated contract.
+  x-verified: '2026-09-01'
+- aid: hebrew-university-of-jerusalem:crossref-members
+  name: Crossref member registration
+  description: 'Two Hebrew University units are registered Crossref members with their own member ids:
+    Hebrew University Magnes Press (member 2773) and the Institute of Archaeology, the Hebrew University
+    of Jerusalem (member 30154). Recorded as a membership fact about the institution. Crossref''s API
+    is Crossref''s and no Crossref contract is saved here. The university is NOT a DataCite member — the
+    DataCite providers and clients APIs both return zero results for it.'
+  humanURL: https://www.crossref.org/
+  baseURL: https://api.crossref.org/members?query=Hebrew+University
+  tags:
+  - Registry
+  - Crossref
+  - DOI
+  - Scholarly Publishing
+  properties:
+  - type: Conformance
+    url: conformance/hebrew-university-of-jerusalem-conformance.yml
+  x-operator: registry
+  x-operator-basis: An identifier registry the institution is REGISTERED IN, not a surface it operates.
+    Membership evidenced from api.crossref.org/members (HTTP 200), member ids 2773 and 30154.
+  x-verified: '2026-09-01'
+- aid: hebrew-university-of-jerusalem:ror
+  name: Research Organization Registry (ROR) record
+  description: The institution's ROR identifier, https://ror.org/03qxff017, resolved from the ROR v2 API
+    on 2026-09-01. The canonical machine-readable identifier for the Hebrew University of Jerusalem and
+    the key used to settle affiliation across DataCite, OpenAlex (I197251160) and Crossref. Registry membership
+    recorded; ROR's own contract is not saved here.
+  humanURL: https://ror.org/03qxff017
+  baseURL: https://api.ror.org/v2/organizations/03qxff017
+  tags:
+  - Registry
+  - ROR
+  - Persistent Identifier
+  properties:
+  - type: Conformance
+    url: conformance/hebrew-university-of-jerusalem-conformance.yml
+  x-operator: registry
+  x-operator-basis: An identifier registry the institution is registered in. ROR id 03qxff017 confirmed
+    live from api.ror.org.
+  x-verified: '2026-09-01'
+common:
+- type: Website
+  url: https://en.huji.ac.il/
+- type: APIReference
+  url: openapi/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml
+- type: CourseCatalog
+  url: https://shnaton.huji.ac.il/
+- type: IdentityFederation
+  url: identity-federation/hebrew-university-of-jerusalem-identity-federation.yml
+- type: ResearchRepository
+  url: https://cris.huji.ac.il/
+- type: LibraryCatalog
+  url: https://huji.primo.exlibrisgroup.com/discovery/search?vid=972HUJI_INST:972HUJI_V1
+- type: Library
+  url: https://en.libraries.huji.ac.il/
+- type: Conformance
+  url: conformance/hebrew-university-of-jerusalem-conformance.yml
+- type: Authentication
+  url: authentication/hebrew-university-of-jerusalem-authentication.yml
+- type: Scopes
+  url: scopes/hebrew-university-of-jerusalem-scopes.yml
+- type: Errors
+  url: errors/hebrew-university-of-jerusalem-errors.yml
+- type: Rules
+  url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+- type: Vocabulary
+  url: vocabulary/hebrew-university-of-jerusalem-vocabulary.yml
+- type: Examples
+  url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+- type: JSONSchema
+  url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+- type: Lifecycle
+  url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+- type: JSONLD
+  url: json-ld/hebrew-university-of-jerusalem-context.jsonld
+- type: LearningManagementSystem
+  url: https://moodle.huji.ac.il/
+- type: Regulations
+  url: https://en.huji.ac.il/regulations
+- type: Accessibility
+  url: https://en.huji.ac.il/en/accessibility-statement
+- type: GitHub
+  url: https://github.com/huji-nlp
+- type: SourceCode
+  url: https://github.com/HUJI-Deep
+- type: LinkedIn
+  url: https://www.linkedin.com/school/hebrew-university-of-jerusalem/
+- type: DomainSecurity
+  url: security/hebrew-university-of-jerusalem-domain-security.yml
+- type: Plans
+  url: plans/hebrew-university-of-jerusalem-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/hebrew-university-of-jerusalem-rate-limits.yml
+- type: FinOps
+  url: finops/hebrew-university-of-jerusalem-finops.yml
+- type: Review
+  url: review.yml
+x-coverage:
+  state: covered
+  reason: covered
+  detail: 'Two institution-operated surfaces were found, verified live, and confirmed HUJI-owned by IP
+    ownership rather than by hostname: the Shnaton course catalog API at shnaton.huji.ac.il/api and the
+    SAML 2.0 identity provider at idp.cc.huji.ac.il. Both resolve into RIPE inetnum 128.139.0.0/16 (ILAN,
+    registrant IUCC) announced by AS378 MACHBA-AS, behind the university''s own F5 estate, with a GEANT
+    TCS certificate issued to The Hebrew University of Jerusalem on the catalog host and a self-issued
+    institutional certificate signing the IdP metadata. The course catalog is the substantive find: public,
+    unauthenticated, bilingual, covering academic years 2020-2027, and completely undocumented — the university
+    publishes no OpenAPI, no developer portal and no terms for it, so the contract in this repository
+    is DERIVED by API Evangelist from the catalog''s own JavaScript client and then verified operation
+    by operation against production. It is marked derived throughout and must not be read as something
+    HUJI published.
+
+    Three further surfaces are real institutional facts but not the institution''s contracts. cris.huji.ac.il
+    is a CNAME tenancy — huji.elsevierpure.com then eu.prod.elsevierpure.com — whose live OAI-PMH 2.0
+    repository is Elsevier Pure''s engineering (Identify names ''Pure OAI Repository'', adminEmail noreply@atira.dk)
+    and whose /ws/api is 401 behind an Elsevier key. Library discovery is a named HUJI scope (972HUJI_INST)
+    on the shared Ex Libris Primo host. Crossref carries two HUJI unit memberships and ROR carries the
+    institution''s identifier. All four relationships are recorded; none of their vendors'' or registries''
+    contracts are saved.
+
+    One candidate was tested and REJECTED. huji.figshare.com returns HTTP 202, which looked like a Figshare
+    tenancy until a control probe showed notarealuniversityxyz.figshare.com returns the identical 202
+    AWS WAF challenge — the response is wildcard behaviour and proves nothing, so no Figshare relationship
+    is claimed. The DataCite providers and clients APIs both return zero results for the university, so
+    no DataCite membership is claimed either, despite 2,315 DOIs carrying its ROR as a creator affiliation.
+
+    Absences confirmed rather than assumed: api.huji.ac.il, developer.huji.ac.il, data.huji.ac.il, dataverse.huji.ac.il,
+    repository.huji.ac.il, shibboleth.huji.ac.il, idp.huji.ac.il and login.huji.ac.il are all NXDOMAIN.
+    There is no open data portal, no developer portal, no API key issuance and no published API documentation
+    of any kind. scholars.huji.ac.il now 200s but redirects to the university homepage, so the previous
+    profile''s pointer to it has been removed as soft-dead and replaced with cris.huji.ac.il. en.huji.ac.il
+    serves 403 to non-browser clients on some paths (llms.txt, .well-known) — a limitation of our probe,
+    not of HUJI. Shibboleth is deliberately not claimed: the university runs SimpleSAMLphp, which is SAML
+    but is not Shibboleth.'
+  assessed: '2026-09-01'
+  method: probed
+  evidence:
+  - url: https://shnaton.huji.ac.il/api/health
+    status: 200
+  - url: https://shnaton.huji.ac.il/api/faculties
+    status: 200
+  - url: https://shnaton.huji.ac.il/api/courses/search-advanced
+    status: 200
+  - url: https://shnaton.huji.ac.il/api/reference-data/active-years
+    status: 200
+  - url: https://shnaton.huji.ac.il/api/syllabus?courseCode=140713&year=2027
+    status: 200
+  - url: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+    status: 200
+  - url: https://cris.huji.ac.il/ws/oai?verb=Identify
+    status: 200
+  - url: https://cris.huji.ac.il/ws/api/524/openapi.yaml
+    status: 401
+  - url: https://huji.primo.exlibrisgroup.com/discovery/search?vid=972HUJI_INST:972HUJI_V1
+    status: 200
+  - url: https://api.crossref.org/members?query=Hebrew+University
+    status: 200
+  - url: https://api.ror.org/v2/organizations?query=Hebrew%20University%20of%20Jerusalem
+    status: 200
+  - url: https://api.datacite.org/clients?query=Hebrew%20University
+    status: 200
+  - url: https://en.huji.ac.il/
+    status: 200
+  - url: https://en.libraries.huji.ac.il/
+    status: 200
+  - url: https://moodle.huji.ac.il/
+    status: 200
+  - url: https://huji.figshare.com/
+    status: 202
+  - url: https://open-eu.hosted.exlibrisgroup.com/OAI-PUB?verb=Identify&institution=972HUJI_INST
+    status: 404
+  - url: https://en.huji.ac.il/llms.txt
+    status: 403
+  - url: https://api.huji.ac.il/
+    status: 0
+  - url: https://data.huji.ac.il/
+    status: 0
+  - url: https://shibboleth.huji.ac.il/idp/shibboleth
+    status: 0
+x-enrichment:
+  pipeline: pipeline-university.md
+  run: '2026-09-01'
+  method: probed
+  note: Operator attribution settled before any contract was saved. One derived institution contract,
+    one institution federation surface, two tenant relationships, two registry memberships, one candidate
+    tenancy rejected on a control probe.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
