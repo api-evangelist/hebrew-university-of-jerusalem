@@ -67,59 +67,16 @@ created: '2026-06-03'
 modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
-- aid: hebrew-university-of-jerusalem:shnaton-course-catalog
-  name: Shnaton Course Catalog API
-  description: 'The public JSON API behind shnaton.huji.ac.il, the Hebrew University''s official course
-    catalog. Faculties, departments, degree programs, specializations, study roadmaps, courses, course
-    groups, timetabled study sessions and syllabi, bilingual Hebrew/English, for academic years 2020-2027.
-    Unauthenticated and unpaginated: an anonymous POST to /courses/search-advanced returned 6,355 courses
-    in a single 14,153,560-byte response on 2026-09-01. The university publishes no contract for it —
-    the OpenAPI in this repository was derived by API Evangelist from the catalog''s own JavaScript client
-    and then verified operation by operation against the production host.'
-  humanURL: https://shnaton.huji.ac.il/
-  baseURL: https://shnaton.huji.ac.il/api
-  tags:
-  - Course Catalog
-  - Registrar
-  - Timetable
-  - Syllabus
-  - Open Access
-  properties:
-  - type: OpenAPI
-    url: openapi/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml
-  - type: JSONSchema
-    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
-  - type: Examples
-    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
-  - type: Rules
-    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
-  - type: Authentication
-    url: authentication/hebrew-university-of-jerusalem-authentication.yml
-  - type: Scopes
-    url: scopes/hebrew-university-of-jerusalem-scopes.yml
-  - type: Errors
-    url: errors/hebrew-university-of-jerusalem-errors.yml
-  - type: Lifecycle
-    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
-  - type: JSONLD
-    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
-  - type: CourseCatalog
-    url: https://shnaton.huji.ac.il/
-  x-operator: institution
-  x-operator-basis: 'shnaton.huji.ac.il CNAME -> orb-bif5.cc.huji.ac.il -> 128.139.7.32, inside RIPE inetnum
-    128.139.0.0/16 "ILAN" (registrant ORG-IIIC1-RIPE, IUCC), announced by AS378 MACHBA-AS. TLS subject
-    C=IL, L=Jerusalem, O=The Hebrew University of Jerusalem, CN=*.huji.ac.il via GEANT TCS. Response header
-    X-HujiShnatonServer: Server 2. No vendor anywhere in the chain.'
-  x-verified: '2026-09-01'
 - aid: hebrew-university-of-jerusalem:saml-idp
   name: Hebrew University of Jerusalem SAML 2.0 Identity Provider
-  description: 'The university''s own SimpleSAMLphp identity provider, publishing a live SAML 2.0 EntityDescriptor
+  description: >-
+    The university's own SimpleSAMLphp identity provider, publishing a live SAML 2.0 EntityDescriptor
     (HTTP 200, application/xml, 4,548 bytes) with IDPSSODescriptor, HTTP-Redirect SSO and SLO bindings,
     emailAddress NameID format, and signing and encryption key descriptors. The signing certificate is
     self-issued by the institution — O=Hebrew University, OU=The authority for computation,communication
-    and information, CN=idp1.cc.huji.ac.il — and it fronts the university''s authenticated estate including
+    and information, CN=idp1.cc.huji.ac.il — and it fronts the university's authenticated estate including
     the Elsevier Pure CRIS. This is the strongest machine-readable contract the institution itself publishes.
-    Note: the signing certificate expires 2026-09-22.'
+    Note: the signing certificate expires 2026-09-22.
   humanURL: https://idp.cc.huji.ac.il/
   baseURL: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
   tags:
@@ -135,14 +92,16 @@ apis:
   - type: Conformance
     url: conformance/hebrew-university-of-jerusalem-conformance.yml
   x-operator: institution
-  x-operator-basis: idp.cc.huji.ac.il has no CNAME and resolves directly to 128.139.7.22 in RIPE inetnum
-    128.139.0.0/16 "ILAN" (registrant IUCC), AS378. The SAML signing certificate is issued by the university
-    to itself, naming its Authority for Computation, Communication and Information. No managed identity
-    vendor and no cloud address space in the path.
+  x-operator-basis: >-
+    idp.cc.huji.ac.il has no CNAME and resolves directly to 128.139.7.22 in RIPE inetnum 128.139.0.0/16
+    "ILAN" (registrant IUCC), AS378. The SAML signing certificate is issued by the university to itself,
+    naming its Authority for Computation, Communication and Information. No managed identity vendor and
+    no cloud address space in the path.
   x-verified: '2026-09-01'
 - aid: hebrew-university-of-jerusalem:cris-pure
   name: HUJI Research Portal / CRIS (Elsevier Pure tenant)
-  description: The university's current research information system and research-output portal at cris.huji.ac.il,
+  description: >-
+    The university's current research information system and research-output portal at cris.huji.ac.il,
     running on Elsevier Pure. It publishes a working OAI-PMH 2.0 repository at /ws/oai which answered
     Identify, ListMetadataFormats (oai_dc, mods, qdc, mods_swepub, xmetadiss, nl_didl, uketd_dc) and ListSets
     (persons:all, publications:all and per-year sets) on 2026-09-01, with an earliest datestamp of 2021-05-27.
@@ -166,18 +125,19 @@ apis:
   - type: Conformance
     url: conformance/hebrew-university-of-jerusalem-conformance.yml
   x-operator: tenant
-  x-operator-basis: cris.huji.ac.il CNAME -> huji.elsevierpure.com -> eu.prod.elsevierpure.com (Cloudflare).
-    An institution hostname in front of an Elsevier-operated platform — the CNAME tenancy class. https://huji.elsevierpure.com/
+  x-operator-basis: >-
+    cris.huji.ac.il CNAME -> huji.elsevierpure.com -> eu.prod.elsevierpure.com (Cloudflare). An institution
+    hostname in front of an Elsevier-operated platform — the CNAME tenancy class. https://huji.elsevierpure.com/
     redirects to https://cris.huji.ac.il/, confirming the same tenant instance from the vendor side.
   x-verified: '2026-09-01'
 - aid: hebrew-university-of-jerusalem:primo-discovery
   name: HUJI Library Discovery (Ex Libris Primo tenant)
-  description: 'Library discovery for the Hebrew University''s library system, running on Ex Libris Primo
-    under institution code 972HUJI_INST with named views 972HUJI_V1 (main), HUJI_THESES (theses collection)
-    and HUJI_NDE. A named institutional scope on a vendor host: the collections, holdings and theses are
-    the university''s, the discovery platform and its APIs are Ex Libris''s and require institution-issued
-    keys the university does not publish. Tenant relationship recorded; no Ex Libris contract is saved
-    here.'
+  description: >-
+    Library discovery for the Hebrew University's library system, running on Ex Libris Primo under institution
+    code 972HUJI_INST with named views 972HUJI_V1 (main), HUJI_THESES (theses collection) and HUJI_NDE.
+    A named institutional scope on a vendor host: the collections, holdings and theses are the university's,
+    the discovery platform and its APIs are Ex Libris's and require institution-issued keys the university
+    does not publish. Tenant relationship recorded; no Ex Libris contract is saved here.
   humanURL: https://en.libraries.huji.ac.il/
   baseURL: https://huji.primo.exlibrisgroup.com/discovery/search?vid=972HUJI_INST:972HUJI_V1
   tags:
@@ -191,18 +151,20 @@ apis:
   - type: Website
     url: https://en.libraries.huji.ac.il/
   x-operator: tenant
-  x-operator-basis: huji.primo.exlibrisgroup.com is a generic Ex Libris host, but the institution code
-    972HUJI_INST and the views 972HUJI_V1 / HUJI_THESES / HUJI_NDE are a named HUJI scope on it, linked
-    from the university library site at en.libraries.huji.ac.il. Named tenancy on a vendor platform, not
-    an institution-operated contract.
+  x-operator-basis: >-
+    huji.primo.exlibrisgroup.com is a generic Ex Libris host, but the institution code 972HUJI_INST and
+    the views 972HUJI_V1 / HUJI_THESES / HUJI_NDE are a named HUJI scope on it, linked from the university
+    library site at en.libraries.huji.ac.il. Named tenancy on a vendor platform, not an institution-operated
+    contract.
   x-verified: '2026-09-01'
 - aid: hebrew-university-of-jerusalem:crossref-members
   name: Crossref member registration
-  description: 'Two Hebrew University units are registered Crossref members with their own member ids:
-    Hebrew University Magnes Press (member 2773) and the Institute of Archaeology, the Hebrew University
-    of Jerusalem (member 30154). Recorded as a membership fact about the institution. Crossref''s API
-    is Crossref''s and no Crossref contract is saved here. The university is NOT a DataCite member — the
-    DataCite providers and clients APIs both return zero results for it.'
+  description: >-
+    Two Hebrew University units are registered Crossref members with their own member ids: Hebrew University
+    Magnes Press (member 2773) and the Institute of Archaeology, the Hebrew University of Jerusalem (member
+    30154). Recorded as a membership fact about the institution. Crossref's API is Crossref's and no Crossref
+    contract is saved here. The university is NOT a DataCite member — the DataCite providers and clients
+    APIs both return zero results for it.
   humanURL: https://www.crossref.org/
   baseURL: https://api.crossref.org/members?query=Hebrew+University
   tags:
@@ -214,15 +176,17 @@ apis:
   - type: Conformance
     url: conformance/hebrew-university-of-jerusalem-conformance.yml
   x-operator: registry
-  x-operator-basis: An identifier registry the institution is REGISTERED IN, not a surface it operates.
-    Membership evidenced from api.crossref.org/members (HTTP 200), member ids 2773 and 30154.
+  x-operator-basis: >-
+    An identifier registry the institution is REGISTERED IN, not a surface it operates. Membership evidenced
+    from api.crossref.org/members (HTTP 200), member ids 2773 and 30154.
   x-verified: '2026-09-01'
 - aid: hebrew-university-of-jerusalem:ror
   name: Research Organization Registry (ROR) record
-  description: The institution's ROR identifier, https://ror.org/03qxff017, resolved from the ROR v2 API
-    on 2026-09-01. The canonical machine-readable identifier for the Hebrew University of Jerusalem and
-    the key used to settle affiliation across DataCite, OpenAlex (I197251160) and Crossref. Registry membership
-    recorded; ROR's own contract is not saved here.
+  description: >-
+    The institution's ROR identifier, https://ror.org/03qxff017, resolved from the ROR v2 API on 2026-09-01.
+    The canonical machine-readable identifier for the Hebrew University of Jerusalem and the key used
+    to settle affiliation across DataCite, OpenAlex (I197251160) and Crossref. Registry membership recorded;
+    ROR's own contract is not saved here.
   humanURL: https://ror.org/03qxff017
   baseURL: https://api.ror.org/v2/organizations/03qxff017
   tags:
@@ -233,9 +197,178 @@ apis:
   - type: Conformance
     url: conformance/hebrew-university-of-jerusalem-conformance.yml
   x-operator: registry
-  x-operator-basis: An identifier registry the institution is registered in. ROR id 03qxff017 confirmed
-    live from api.ror.org.
+  x-operator-basis: >-
+    An identifier registry the institution is registered in. ROR id 03qxff017 confirmed live from api.ror.org.
   x-verified: '2026-09-01'
+- aid: hebrew-university-of-jerusalem:hebrew-university-of-jerusalem-courses-api
+  name: Hebrew University of Jerusalem Courses API
+  description: Course search, course groups, timetabled study sessions and prerequisites.
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Courses
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-courses-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+  - type: JSONLD
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
+- aid: hebrew-university-of-jerusalem:hebrew-university-of-jerusalem-organization-api
+  name: Hebrew University of Jerusalem Organization API
+  description: The university's academic structure — faculties, departments and degree programs.
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-organization-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+  - type: JSONLD
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
+- aid: hebrew-university-of-jerusalem:hebrew-university-of-jerusalem-reference-data-api
+  name: Hebrew University of Jerusalem Reference Data API
+  description: >-
+    Enumerations the catalog is indexed by — academic years, languages, session types, assignment filters.
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Reference Data
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-reference-data-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+  - type: JSONLD
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
+- aid: hebrew-university-of-jerusalem:hebrew-university-of-jerusalem-service-api
+  name: Hebrew University of Jerusalem Service API
+  description: Service health.
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Service
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-service-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+  - type: JSONLD
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
+- aid: hebrew-university-of-jerusalem:hebrew-university-of-jerusalem-specializations-api
+  name: Hebrew University of Jerusalem Specializations API
+  description: Specializations, units and yearly study roadmaps.
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Specializations
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-specializations-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+  - type: JSONLD
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
+- aid: hebrew-university-of-jerusalem:hebrew-university-of-jerusalem-syllabus-api
+  name: Hebrew University of Jerusalem Syllabus API
+  description: Per-course syllabus documents.
+  humanURL: https://shnaton.huji.ac.il/
+  baseURL: https://shnaton.huji.ac.il/api
+  tags:
+  - Syllabus
+  properties:
+  - type: OpenAPI
+    url: openapi/hebrew-university-of-jerusalem-syllabus-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json
+  - type: Examples
+    url: examples/hebrew-university-of-jerusalem-shnaton-examples.yml
+  - type: Rules
+    url: rules/hebrew-university-of-jerusalem-shnaton-rules.yml
+  - type: Authentication
+    url: authentication/hebrew-university-of-jerusalem-authentication.yml
+  - type: Scopes
+    url: scopes/hebrew-university-of-jerusalem-scopes.yml
+  - type: Errors
+    url: errors/hebrew-university-of-jerusalem-errors.yml
+  - type: Lifecycle
+    url: lifecycle/hebrew-university-of-jerusalem-lifecycle.yml
+  - type: JSONLD
+    url: json-ld/hebrew-university-of-jerusalem-shnaton-course-catalog.jsonld
+  - type: CourseCatalog
+    url: https://shnaton.huji.ac.il/
 common:
 - type: Website
   url: https://en.huji.ac.il/
