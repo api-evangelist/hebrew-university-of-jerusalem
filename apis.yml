@@ -82,6 +82,11 @@ apis:
   tags:
   - Identity Federation
   - SAML
+  - SSO
+  - SimpleSAMLphp
+  tags_raw:
+  - Identity Federation
+  - SAML
   - Single Sign-On
   - SimpleSAMLphp
   properties:
@@ -112,6 +117,12 @@ apis:
   humanURL: https://cris.huji.ac.il/
   baseURL: https://cris.huji.ac.il/ws/oai
   tags:
+  - Research Repository
+  - CRI
+  - OAI-PMH
+  - Research Outputs
+  - Elsevier Pure
+  tags_raw:
   - Research Repository
   - CRIS
   - OAI-PMH
@@ -291,6 +302,8 @@ apis:
   humanURL: https://shnaton.huji.ac.il/
   baseURL: https://shnaton.huji.ac.il/api
   tags:
+  - Services
+  tags_raw:
   - Service
   properties:
   - type: OpenAPI
