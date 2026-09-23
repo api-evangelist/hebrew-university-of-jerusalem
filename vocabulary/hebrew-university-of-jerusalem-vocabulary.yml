@@ -1,0 +1,132 @@
+# x-method: derived
+# x-source-url: https://shnaton.huji.ac.il/api
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Vocabulary
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+generated: '2026-09-01'
+method: derived
+source: >-
+  Terms read from live responses of https://shnaton.huji.ac.il/api and from the SAML and
+  OAI-PMH surfaces probed on 2026-09-01. Hebrew forms are the API's own, copied verbatim
+  from response payloads.
+description: >-
+  The working vocabulary of the Hebrew University of Jerusalem's programmable surfaces. It
+  is a Hebrew-first vocabulary: the catalog's canonical terms are Hebrew, the English forms
+  are translations the university supplies alongside them, and several concepts here have no
+  clean English equivalent — Shnaton itself, and the Hebrew academic year, are the clearest
+  cases. Recording the Hebrew term is not decoration; a caller who indexes only the English
+  member will silently lose the courses whose English name is empty.
+
+terms:
+  - term: Shnaton
+    hebrew: שנתון
+    definition: >-
+      The Hebrew University's official course catalog — the annually published record of every
+      course, group, timetabled session and syllabus. Literally "yearbook". The name of the
+      service, the name of the host, and the unit of publication: a Shnaton is issued per
+      academic year and prior years remain queryable.
+    surface: https://shnaton.huji.ac.il/
+
+  - term: Hebrew academic year
+    hebrew: 'תשפ"ז'
+    definition: >-
+      The academic year in the Hebrew calendar, returned as `hebrewYear` alongside the
+      Gregorian `year`. Both are first-class in the API and the Hebrew form is the one the
+      university's own interface displays.
+    example: 'תשפ"ז = 2027'
+
+  - term: Faculty
+    hebrew: פקולטה
+    definition: The top level of academic structure — Humanities, Science, Medicine, Law and the schools.
+    api_field: facultyName
+
+  - term: Department
+    hebrew: מחלקה
+    definition: An academic unit within a faculty, and the level courses are attributed to.
+    api_field: departmentName
+
+  - term: Learning program
+    hebrew: תוכנית לימודים
+    definition: >-
+      A degree level — Bachelor's (בוגר / תואר ראשון), Master's (מוסמך / תואר שני) and above.
+      Carries both a formal `name` and a `displayName`; the university uses the display form
+      publicly.
+    api_field: learningProgramName
+
+  - term: Specialization
+    hebrew: חטיבה
+    definition: >-
+      A named unit or concentration of study within a degree program, keyed to a threshold
+      year. Rendered "unit" in the API's own English translations.
+    api_field: specializations
+
+  - term: Threshold year
+    hebrew: שנת סף
+    definition: >-
+      The year of entry a study roadmap or requirement set is keyed to. Distinct from the
+      academic year a course is offered in — a student's obligations follow their threshold
+      year, not the current year.
+    api_field: thresholdYear
+
+  - term: Study roadmap
+    hebrew: מסלול לימודים
+    definition: The prescribed path of courses and specialization combinations for a program and threshold year.
+    api_field: yearly-roadmaps
+
+  - term: Course group
+    hebrew: קבוצה
+    definition: >-
+      A specific offering of a course — one teaching group with its own language of
+      instruction, session type and timetable. Courses are found; groups are attended.
+    api_field: groups
+
+  - term: Study session
+    hebrew: מפגש
+    definition: >-
+      One timetabled meeting of a group, with a day of week, a room, a teaching type, and
+      recording and live-broadcast flags. Times are milliseconds after local midnight; the
+      week starts on Sunday, so dayOfWeek 1 is Sunday.
+    api_field: studySessions
+
+  - term: Academic points
+    hebrew: נקודות זכות
+    definition: >-
+      The university's own credit unit, distinct from ECTS. The syllabus carries `creditPoints`
+      in academic points and a separate `ectsCredits` member which is frequently null — the two
+      are not interchangeable.
+    api_field: academicPoints
+
+  - term: Semester
+    hebrew: סמסטר
+    definition: 'The teaching period — Semester A (סמסטר א), Semester B, and yearly courses. Returned as `coursePeriod` with a bilingual `coursePeriodName`.'
+    api_field: coursePeriod
+
+  - term: Syllabus
+    hebrew: סילבוס
+    definition: The per-course, per-year descriptive document — name, department, semester, credit points and degree level.
+    api_field: /syllabus
+
+  - term: Authority for Computation, Communication and Information
+    hebrew: הרשות למחשוב, תקשורת ומידע
+    definition: >-
+      The university's central IT organisation, cc.huji.ac.il. It operates the SAML identity
+      provider, the F5 load balancers the course catalog sits behind, and the huji.ac.il web
+      estate. Where a surface in this profile is institution-operated, this is the operator.
+    surface: https://idp.cc.huji.ac.il/
+
+  - term: CRIS
+    definition: >-
+      Current Research Information System — the research portal at cris.huji.ac.il. The data
+      and the DOIs are the university's; the software is Elsevier Pure and the contract is
+      Elsevier's.
+    surface: https://cris.huji.ac.il/
+
+  - term: ILAN / IUCC
+    definition: >-
+      The Israeli inter-university academic network (ILAN) and the Israel Inter-University
+      Computation Center (IUCC, AS378) that runs it. The university's address space,
+      128.139.0.0/16, is registered in this block — the evidence that settled institution
+      operation for the surfaces in this profile.

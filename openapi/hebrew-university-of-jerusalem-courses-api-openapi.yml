@@ -1,0 +1,522 @@
+openapi: 3.2.0
+info:
+  title: Hebrew University of Jerusalem Shnaton Course Catalog…
+  version: '2027'
+  summary: Public, unauthenticated JSON API behind the Hebrew University of Jerusalem's Shnaton course catalog.
+  description: The read API that serves shnaton.huji.ac.il, the Hebrew University of Jerusalem's official course catalog ("Shnaton" / שנתון).
+  contact:
+    name: Hebrew University of Jerusalem — Shnaton course catalog
+    url: https://shnaton.huji.ac.il/
+  termsOfService: https://en.huji.ac.il/en/accessibility-statement
+  x-operator: institution
+  x-operator-basis: 'shnaton.huji.ac.il CNAME -> orb-bif5.cc.huji.ac.il -> 128.139.7.32; RIPE inetnum 128.139.0.0/16 "ILAN", registrant ORG-IIIC1-RIPE (IUCC - Israel InterUniversity Computation Center), announced by AS378 MACHBA-AS; TLS subject O=The Hebrew University of Jerusalem, CN=*.huji.ac.il, issuer GEANT TLS RSA 1 (Hellenic Academic and Research Institutions CA); response header X-HujiShnatonServer: Server 2.'
+  x-provenance:
+    method: derived
+    generated: '2026-09-01'
+    source:
+    - https://shnaton.huji.ac.il/assets/index-DcMgIxCt.js
+    - https://shnaton.huji.ac.il/api/health
+    - https://shnaton.huji.ac.il/api/faculties
+    - https://shnaton.huji.ac.il/api/courses/search-advanced
+    note: Derived by API Evangelist from the catalog's own JavaScript client plus live probes of the production host. NOT published by the Hebrew University of Jerusalem.
+servers:
+- url: https://shnaton.huji.ac.il/api
+  description: Production. Public and unauthenticated; verified live 2026-09-01.
+tags:
+- name: Courses
+  description: Course search, course groups, timetabled study sessions and prerequisites.
+paths:
+  /courses/search-advanced:
+    post:
+      tags:
+      - Courses
+      operationId: searchCoursesAdvanced
+      summary: Advanced course search
+      description: The catalog's principal search operation. Accepts a filter document and returns matching courses with their groups. Unauthenticated and unpaginated — a broad query returns the entire matching set in one response. Verified 200 on 2026-09-01 with body `{"textQuery":"computer","year":2027}`, returning 6,355 courses in a single 14,153,560-byte payload. Callers should expect multi-megabyte responses and filter narrowly.
+      parameters:
+      - name: include
+        in: query
+        required: false
+        description: Include-depth flag observed as `1` in the catalog's own client.
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseSearchRequest'
+      responses:
+        '200':
+          description: Matching courses.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '400':
+          $ref: '#/components/responses/ProblemDetails'
+  /courses/search-advanced-in-roadmap:
+    post:
+      tags:
+      - Courses
+      operationId: searchCoursesAdvancedInRoadmap
+      summary: Advanced course search scoped to a roadmap
+      description: As `searchCoursesAdvanced`, with the candidate set restricted to `courseIds`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CourseSearchRequest'
+              - type: object
+                properties:
+                  courseIds:
+                    type: array
+                    items:
+                      type: integer
+      responses:
+        '200':
+          description: Matching courses.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '400':
+          $ref: '#/components/responses/ProblemDetails'
+  /courses/groups-with-sessions:
+    get:
+      tags:
+      - Courses
+      operationId: getCourseGroupsWithSessions
+      summary: Get groups and timetabled sessions for courses
+      description: Returns an object keyed by course id, each value the list of that course's groups with their study sessions expanded. Verified 200, 4,282 bytes, for `year=2027&courseIds=508699` on 2026-09-01.
+      parameters:
+      - $ref: '#/components/parameters/YearRequired'
+      - name: courseIds
+        in: query
+        required: true
+        description: Comma-separated course ids.
+        schema:
+          type: string
+        example: '508699'
+      responses:
+        '200':
+          description: Groups by course id.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CourseGroup'
+  /courses/code/{courseCode}/requirements:
+    get:
+      tags:
+      - Courses
+      operationId: getCourseRequirements
+      summary: Get a course's prerequisites
+      description: Positive, negative and additional prerequisite sets for a course. All three members may be null where the registrar records none. Verified 200, 88 bytes, for course code 140713 in 2027 on 2026-09-01.
+      parameters:
+      - $ref: '#/components/parameters/CourseCodePath'
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Requirement sets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseRequirements'
+  /courses/code/{courseCode}/with-requirement:
+    get:
+      tags:
+      - Courses
+      operationId: getCoursesWithRequirement
+      summary: Find courses that require a course
+      parameters:
+      - $ref: '#/components/parameters/CourseCodePath'
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Dependent courses.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+  /groups/{groupId}/study-sessions:
+    get:
+      tags:
+      - Courses
+      operationId: getGroupStudySessions
+      summary: Get the timetable for a course group
+      description: 'Timetabled meetings for one course group — day of week, start and end time as milliseconds after local midnight, room, teaching type, recording and live-broadcast flags, and the assigned teaching staff. Verified 200, 3,768 bytes, for group 95783 in 2027 on 2026-09-01. NOTE: the `teachers` member carries named individuals; treat it as personal data.'
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 95783
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Study sessions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudySession'
+components:
+  schemas:
+    ProblemDetails:
+      type: object
+      description: RFC 9457 problem document as emitted by ASP.NET Core model validation.
+      properties:
+        type:
+          type: string
+          format: uri
+          example: https://tools.ietf.org/html/rfc9110#section-15.5.1
+        title:
+          type: string
+          example: One or more validation errors occurred.
+        status:
+          type: integer
+          example: 400
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        traceId:
+          type: string
+          description: W3C trace context identifier for the failed request.
+    CourseRequirements:
+      type: object
+      properties:
+        positiveRequirements:
+          type:
+          - object
+          - array
+          - 'null'
+          description: Courses that must be taken before this one.
+        negativeRequirements:
+          type:
+          - object
+          - array
+          - 'null'
+          description: Courses that exclude this one.
+        additionalRequirements:
+          type:
+          - boolean
+          - 'null'
+    StudySession:
+      type: object
+      description: One timetabled meeting of a course group.
+      properties:
+        id:
+          type: integer
+        courseId:
+          type: integer
+        groupId:
+          type: integer
+        roomId:
+          type:
+          - integer
+          - 'null'
+        year:
+          type: integer
+        period:
+          type:
+          - integer
+          - 'null'
+        dayOfWeek:
+          type:
+          - integer
+          - 'null'
+          description: 1 = Sunday, the first day of the Israeli academic week.
+        startTime:
+          type:
+          - integer
+          - 'null'
+          description: Milliseconds after local midnight. 52200000 is 14:30.
+        endTime:
+          type:
+          - integer
+          - 'null'
+          description: Milliseconds after local midnight.
+        isRecorded:
+          type:
+          - boolean
+          - 'null'
+        isLiveBroadcast:
+          type:
+          - boolean
+          - 'null'
+        teachingTypeId:
+          type:
+          - integer
+          - 'null'
+        calendarFrequency:
+          type:
+          - string
+          - 'null'
+        teachers:
+          type: array
+          description: Assigned teaching staff. Carries named individuals — personal data. Retained here as a field description only; no teacher record is stored in this repository's examples.
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+            additionalProperties: true
+      required:
+      - id
+      - courseId
+      - groupId
+      - year
+    CourseSearchRequest:
+      type: object
+      description: Filter document for advanced course search. Members are those the catalog's own client assembles; the server tolerates a subset.
+      properties:
+        textQuery:
+          type: string
+        year:
+          type: integer
+        facultyIds:
+          type: array
+          items:
+            type: integer
+        departmentIds:
+          type: array
+          items:
+            type: integer
+        languageCodes:
+          type: array
+          items:
+            type: string
+        studySessionTypeCodes:
+          type: array
+          items:
+            type: string
+        buildingCodes:
+          type: array
+          items:
+            type: string
+        gradeGroupKeys:
+          type: array
+          items:
+            type: string
+        assignmentDefinitionIds:
+          type: array
+          items:
+            type: integer
+      required:
+      - year
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+          description: Registrar course code — the identifier used across syllabus and requirement operations.
+        name:
+          $ref: '#/components/schemas/BilingualText'
+        departmentId:
+          type: integer
+        departmentName:
+          $ref: '#/components/schemas/BilingualText'
+        facultyName:
+          $ref: '#/components/schemas/BilingualText'
+        academicPoints:
+          type:
+          - number
+          - 'null'
+        teacherCode:
+          type:
+          - string
+          - 'null'
+        remark:
+          type:
+          - string
+          - 'null'
+        coursePeriod:
+          type:
+          - integer
+          - 'null'
+        coursePeriodName:
+          $ref: '#/components/schemas/BilingualText'
+        coursePeriodOrder:
+          type:
+          - integer
+          - 'null'
+        courseStructureType:
+          type:
+          - string
+          - 'null'
+        courseStructureID:
+          type:
+          - integer
+          - 'null'
+        startDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        endDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastYearGradeAvg:
+          type:
+          - number
+          - 'null'
+        sugToar:
+          type:
+          - string
+          - 'null'
+          description: Degree-program code the course is offered under.
+        totalHours:
+          type:
+          - integer
+          - 'null'
+        isLearning:
+          type:
+          - integer
+          - 'null'
+        statusCourseCode:
+          type:
+          - integer
+          - 'null'
+        year:
+          type: integer
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseGroup'
+        studySessionTypeName:
+          $ref: '#/components/schemas/BilingualText'
+      required:
+      - id
+      - code
+      - name
+      - year
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
+    CourseGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        courseId:
+          type: integer
+        year:
+          type: integer
+        period:
+          type:
+          - integer
+          - 'null'
+        periodName:
+          $ref: '#/components/schemas/BilingualText'
+        languageCode:
+          type:
+          - string
+          - 'null'
+        languageName:
+          $ref: '#/components/schemas/BilingualText'
+        studySessionTypeId:
+          type:
+          - integer
+          - 'null'
+        studySessionTypeCode:
+          type:
+          - string
+          - 'null'
+        studySessionTypeName:
+          $ref: '#/components/schemas/BilingualText'
+        isClinic:
+          type:
+          - boolean
+          - 'null'
+        isManageAssignments:
+          type:
+          - boolean
+          - 'null'
+        qualifyingAttendance:
+          type:
+          - boolean
+          - 'null'
+        startDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        endDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        remark:
+          type:
+          - string
+          - 'null'
+        creationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        studySessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudySession'
+      required:
+      - id
+      - code
+      - courseId
+      - year
+  parameters:
+    YearRequired:
+      name: year
+      in: query
+      required: true
+      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
+      schema:
+        type: integer
+      example: 2027
+    CourseCodePath:
+      name: courseCode
+      in: path
+      required: true
+      description: Registrar course code.
+      schema:
+        type: string
+      example: '140713'
+  responses:
+    ProblemDetails:
+      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'

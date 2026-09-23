@@ -1,0 +1,706 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/hebrew-university-of-jerusalem/main/json-schema/hebrew-university-of-jerusalem-shnaton-schemas.json",
+  "title": "Hebrew University of Jerusalem Shnaton Course Catalog — Schemas",
+  "description": "JSON Schema 2020-12 rendering of every object the Shnaton course catalog API returns. DERIVED by API Evangelist from live responses captured on 2026-09-01 against https://shnaton.huji.ac.il/api — the Hebrew University of Jerusalem does not publish these schemas. They describe what the production API actually returned, not a contract the university has committed to.",
+  "x-provenance": {
+    "method": "derived",
+    "generated": "2026-09-01",
+    "source": "openapi/_original/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml, itself derived from live probes of https://shnaton.huji.ac.il/api",
+    "x-operator": "institution"
+  },
+  "$defs": {
+    "BilingualText": {
+      "type": "object",
+      "description": "Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.",
+      "properties": {
+        "he": {
+          "type": "string",
+          "description": "Hebrew text."
+        },
+        "en": {
+          "type": "string",
+          "description": "English text."
+        }
+      },
+      "required": [
+        "he"
+      ]
+    },
+    "CodedTerm": {
+      "type": "object",
+      "description": "A reference-data enumeration member.",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/BilingualText"
+        }
+      },
+      "required": [
+        "code",
+        "name"
+      ]
+    },
+    "AcademicYear": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "year": {
+          "type": "integer",
+          "description": "Gregorian year the academic year is labelled by."
+        },
+        "hebrewYear": {
+          "type": "string",
+          "description": "Hebrew academic year, e.g. תשפ\"ז."
+        },
+        "current": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True on exactly one member — the year the catalog defaults to."
+        }
+      },
+      "required": [
+        "id",
+        "year",
+        "hebrewYear"
+      ]
+    },
+    "Faculty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "code": {
+          "type": "string",
+          "description": "Registrar faculty code, zero-padded."
+        },
+        "name": {
+          "$ref": "#/$defs/BilingualText"
+        }
+      },
+      "required": [
+        "id",
+        "code",
+        "name"
+      ]
+    },
+    "LearningProgram": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "userCode": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "displayName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "sortOrder": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "userCode",
+        "name"
+      ]
+    },
+    "Specialization": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "learningProgramName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "learningProgramDisplayName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "learningProgramCode": {
+          "type": "string"
+        },
+        "learningProgramSortOrder": {
+          "type": "integer"
+        },
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "academicInfo": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "code",
+        "name"
+      ]
+    },
+    "AssignmentFilterOptions": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "example": "gradeGroup"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "name": {
+                "$ref": "#/$defs/BilingualText"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CourseSearchRequest": {
+      "type": "object",
+      "description": "Filter document for advanced course search. Members are those the catalog's own client assembles; the server tolerates a subset.",
+      "properties": {
+        "textQuery": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "facultyIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "departmentIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "languageCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "studySessionTypeCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "buildingCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gradeGroupKeys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assignmentDefinitionIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "required": [
+        "year"
+      ]
+    },
+    "Course": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "code": {
+          "type": "string",
+          "description": "Registrar course code — the identifier used across syllabus and requirement operations."
+        },
+        "name": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "departmentId": {
+          "type": "integer"
+        },
+        "departmentName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "facultyName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "academicPoints": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "teacherCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "remark": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "coursePeriod": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "coursePeriodName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "coursePeriodOrder": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "courseStructureType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "courseStructureID": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "startDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "lastYearGradeAvg": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "sugToar": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Degree-program code the course is offered under."
+        },
+        "totalHours": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "isLearning": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "statusCourseCode": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "year": {
+          "type": "integer"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CourseGroup"
+          }
+        },
+        "studySessionTypeName": {
+          "$ref": "#/$defs/BilingualText"
+        }
+      },
+      "required": [
+        "id",
+        "code",
+        "name",
+        "year"
+      ]
+    },
+    "CourseGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "code": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "integer"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "period": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "periodName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "languageCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "languageName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "studySessionTypeId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "studySessionTypeCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "studySessionTypeName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "isClinic": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "isManageAssignments": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "qualifyingAttendance": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "startDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "remark": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "creationDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "studySessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StudySession"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "code",
+        "courseId",
+        "year"
+      ]
+    },
+    "StudySession": {
+      "type": "object",
+      "description": "One timetabled meeting of a course group.",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "courseId": {
+          "type": "integer"
+        },
+        "groupId": {
+          "type": "integer"
+        },
+        "roomId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "year": {
+          "type": "integer"
+        },
+        "period": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "dayOfWeek": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "1 = Sunday, the first day of the Israeli academic week."
+        },
+        "startTime": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Milliseconds after local midnight. 52200000 is 14:30."
+        },
+        "endTime": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Milliseconds after local midnight."
+        },
+        "isRecorded": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "isLiveBroadcast": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "teachingTypeId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "calendarFrequency": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "teachers": {
+          "type": "array",
+          "description": "Assigned teaching staff. Carries named individuals — personal data. Retained here as a field description only; no teacher record is stored in this repository's examples.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "groupId",
+        "year"
+      ]
+    },
+    "CourseRequirements": {
+      "type": "object",
+      "properties": {
+        "positiveRequirements": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ],
+          "description": "Courses that must be taken before this one."
+        },
+        "negativeRequirements": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ],
+          "description": "Courses that exclude this one."
+        },
+        "additionalRequirements": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "Syllabus": {
+      "type": "object",
+      "properties": {
+        "courseCode": {
+          "type": "string"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "courseName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "periodName": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "department": {
+          "$ref": "#/$defs/BilingualText"
+        },
+        "semester": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "creditPoints": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ectsCredits": {
+          "type": [
+            "string",
+            "number",
+            "null"
+          ]
+        },
+        "degreeLevel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "academicYear": {
+          "type": [
+            "string",
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "courseCode",
+        "year"
+      ]
+    },
+    "ProblemDetails": {
+      "type": "object",
+      "description": "RFC 9457 problem document as emitted by ASP.NET Core model validation.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "format": "uri",
+          "example": "https://tools.ietf.org/html/rfc9110#section-15.5.1"
+        },
+        "title": {
+          "type": "string",
+          "example": "One or more validation errors occurred."
+        },
+        "status": {
+          "type": "integer",
+          "example": 400
+        },
+        "errors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "traceId": {
+          "type": "string",
+          "description": "W3C trace context identifier for the failed request."
+        }
+      }
+    },
+    "CodedError": {
+      "type": "object",
+      "description": "Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{\"code\":\"ERR_1101\"}` when a required `year` parameter is omitted.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "ERR_1101"
+        }
+      },
+      "required": [
+        "code"
+      ]
+    }
+  }
+}

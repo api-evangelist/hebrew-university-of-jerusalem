@@ -1,0 +1,280 @@
+openapi: 3.2.0
+info:
+  title: Hebrew University of Jerusalem Shnaton Course Catalog…
+  version: '2027'
+  summary: Public, unauthenticated JSON API behind the Hebrew University of Jerusalem's Shnaton course catalog.
+  description: The read API that serves shnaton.huji.ac.il, the Hebrew University of Jerusalem's official course catalog ("Shnaton" / שנתון).
+  contact:
+    name: Hebrew University of Jerusalem — Shnaton course catalog
+    url: https://shnaton.huji.ac.il/
+  termsOfService: https://en.huji.ac.il/en/accessibility-statement
+  x-operator: institution
+  x-operator-basis: 'shnaton.huji.ac.il CNAME -> orb-bif5.cc.huji.ac.il -> 128.139.7.32; RIPE inetnum 128.139.0.0/16 "ILAN", registrant ORG-IIIC1-RIPE (IUCC - Israel InterUniversity Computation Center), announced by AS378 MACHBA-AS; TLS subject O=The Hebrew University of Jerusalem, CN=*.huji.ac.il, issuer GEANT TLS RSA 1 (Hellenic Academic and Research Institutions CA); response header X-HujiShnatonServer: Server 2.'
+  x-provenance:
+    method: derived
+    generated: '2026-09-01'
+    source:
+    - https://shnaton.huji.ac.il/assets/index-DcMgIxCt.js
+    - https://shnaton.huji.ac.il/api/health
+    - https://shnaton.huji.ac.il/api/faculties
+    - https://shnaton.huji.ac.il/api/courses/search-advanced
+    note: Derived by API Evangelist from the catalog's own JavaScript client plus live probes of the production host. NOT published by the Hebrew University of Jerusalem.
+servers:
+- url: https://shnaton.huji.ac.il/api
+  description: Production. Public and unauthenticated; verified live 2026-09-01.
+tags:
+- name: Specializations
+  description: Specializations, units and yearly study roadmaps.
+paths:
+  /specializations/all:
+    get:
+      tags:
+      - Specializations
+      operationId: listSpecializations
+      summary: List all specializations for a year
+      description: Every specialization and unit offered in the given academic year, with its degree program and any threshold sets. `year` is REQUIRED; omitting it returns HTTP 400 with body `{"code":"ERR_1101"}`. Verified 200, 60,697 bytes, 153 items, 2026-09-01.
+      parameters:
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Specialization list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Specialization'
+        '400':
+          $ref: '#/components/responses/CodedError'
+  /specializations/search:
+    get:
+      tags:
+      - Specializations
+      operationId: searchSpecializations
+      summary: Search specializations by name
+      description: Free-text search over specialization names. `name` is REQUIRED and validated as a string of 2–100 characters; violations return an RFC 9457 problem document. Verified 200 (empty array for a non-matching term) and 400, 2026-09-01.
+      parameters:
+      - $ref: '#/components/parameters/NameQuery'
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Matching specializations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Specialization'
+        '400':
+          $ref: '#/components/responses/ProblemDetails'
+  /specializations/search-by-course:
+    get:
+      tags:
+      - Specializations
+      operationId: searchSpecializationsByCourse
+      summary: Find specializations containing a course
+      description: Specializations whose requirements include the given course code, for a threshold year.
+      parameters:
+      - $ref: '#/components/parameters/CourseCodeQuery'
+      - $ref: '#/components/parameters/ThresholdYear'
+      responses:
+        '200':
+          description: Matching specializations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Specialization'
+        '400':
+          $ref: '#/components/responses/ProblemDetails'
+  /yearly-roadmaps/search:
+    get:
+      tags:
+      - Specializations
+      operationId: searchYearlyRoadmaps
+      summary: Search yearly study roadmaps by name
+      description: Free-text search over study roadmaps. `name` is REQUIRED and validated as 2–100 characters — a shorter value returns an RFC 9457 problem document naming the constraint. Verified 400 on a one-character term, 2026-09-01.
+      parameters:
+      - $ref: '#/components/parameters/NameQuery'
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Matching roadmaps.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ProblemDetails'
+  /yearly-roadmaps/search-by-course:
+    get:
+      tags:
+      - Specializations
+      operationId: searchYearlyRoadmapsByCourse
+      summary: Find yearly roadmaps containing a course
+      parameters:
+      - $ref: '#/components/parameters/CourseCodeQuery'
+      - $ref: '#/components/parameters/ThresholdYear'
+      responses:
+        '200':
+          description: Matching roadmaps.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '400':
+          $ref: '#/components/responses/ProblemDetails'
+  /yearly-roadmaps/{roadmapId}/combinations:
+    get:
+      tags:
+      - Specializations
+      operationId: getRoadmapCombinations
+      summary: Get valid specialization combinations for a roadmap
+      parameters:
+      - name: roadmapId
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Roadmap combinations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+components:
+  schemas:
+    ProblemDetails:
+      type: object
+      description: RFC 9457 problem document as emitted by ASP.NET Core model validation.
+      properties:
+        type:
+          type: string
+          format: uri
+          example: https://tools.ietf.org/html/rfc9110#section-15.5.1
+        title:
+          type: string
+          example: One or more validation errors occurred.
+        status:
+          type: integer
+          example: 400
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        traceId:
+          type: string
+          description: W3C trace context identifier for the failed request.
+    Specialization:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          $ref: '#/components/schemas/BilingualText'
+        learningProgramName:
+          $ref: '#/components/schemas/BilingualText'
+        learningProgramDisplayName:
+          $ref: '#/components/schemas/BilingualText'
+        learningProgramCode:
+          type: string
+        learningProgramSortOrder:
+          type: integer
+        thresholds:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        academicInfo:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+      required:
+      - id
+      - code
+      - name
+    CodedError:
+      type: object
+      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
+      properties:
+        code:
+          type: string
+          example: ERR_1101
+      required:
+      - code
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
+  parameters:
+    NameQuery:
+      name: name
+      in: query
+      required: true
+      description: Search term. Validated server-side as 2–100 characters.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 100
+    ThresholdYear:
+      name: thresholdYear
+      in: query
+      required: true
+      description: Year of entry a roadmap or requirement set is keyed to.
+      schema:
+        type: integer
+      example: 2027
+    CourseCodeQuery:
+      name: courseCode
+      in: query
+      required: true
+      description: Registrar course code.
+      schema:
+        type: string
+      example: '140713'
+    YearRequired:
+      name: year
+      in: query
+      required: true
+      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
+      schema:
+        type: integer
+      example: 2027
+  responses:
+    CodedError:
+      description: Application-coded error — a bare code object, no problem document.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CodedError'
+    ProblemDetails:
+      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'

@@ -1,0 +1,43 @@
+openapi: 3.2.0
+info:
+  title: Hebrew University of Jerusalem Shnaton Course Catalog…
+  version: '2027'
+  summary: Public, unauthenticated JSON API behind the Hebrew University of Jerusalem's Shnaton course catalog.
+  description: The read API that serves shnaton.huji.ac.il, the Hebrew University of Jerusalem's official course catalog ("Shnaton" / שנתון).
+  contact:
+    name: Hebrew University of Jerusalem — Shnaton course catalog
+    url: https://shnaton.huji.ac.il/
+  termsOfService: https://en.huji.ac.il/en/accessibility-statement
+  x-operator: institution
+  x-operator-basis: 'shnaton.huji.ac.il CNAME -> orb-bif5.cc.huji.ac.il -> 128.139.7.32; RIPE inetnum 128.139.0.0/16 "ILAN", registrant ORG-IIIC1-RIPE (IUCC - Israel InterUniversity Computation Center), announced by AS378 MACHBA-AS; TLS subject O=The Hebrew University of Jerusalem, CN=*.huji.ac.il, issuer GEANT TLS RSA 1 (Hellenic Academic and Research Institutions CA); response header X-HujiShnatonServer: Server 2.'
+  x-provenance:
+    method: derived
+    generated: '2026-09-01'
+    source:
+    - https://shnaton.huji.ac.il/assets/index-DcMgIxCt.js
+    - https://shnaton.huji.ac.il/api/health
+    - https://shnaton.huji.ac.il/api/faculties
+    - https://shnaton.huji.ac.il/api/courses/search-advanced
+    note: Derived by API Evangelist from the catalog's own JavaScript client plus live probes of the production host. NOT published by the Hebrew University of Jerusalem.
+servers:
+- url: https://shnaton.huji.ac.il/api
+  description: Production. Public and unauthenticated; verified live 2026-09-01.
+tags:
+- name: Service
+  description: Service health.
+paths:
+  /health:
+    get:
+      tags:
+      - Service
+      operationId: getHealth
+      summary: Service health probe
+      description: Returns the literal string `Healthy` as `text/plain`. Verified 200, 7 bytes, 2026-09-01.
+      responses:
+        '200':
+          description: Service is healthy.
+          content:
+            text/plain:
+              schema:
+                type: string
+                const: Healthy

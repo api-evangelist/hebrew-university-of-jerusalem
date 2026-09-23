@@ -1,0 +1,92 @@
+# x-method: derived
+# x-source-url: https://shnaton.huji.ac.il/api
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Errors
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+api: Shnaton Course Catalog API
+x-operator: institution
+generated: '2026-09-01'
+method: probed
+source: >-
+  Errors deliberately provoked against https://shnaton.huji.ac.il/api on 2026-09-01 by
+  omitting required parameters, sending an under-length search term, and requesting
+  unrouted paths. Every response below was actually returned by the production host.
+description: >-
+  The error surface of the Hebrew University of Jerusalem's Shnaton course catalog API. The
+  notable finding is that it emits TWO mutually incompatible error formats from the same
+  service, and a client cannot tell in advance which it will get: an RFC 9457 problem
+  document from the ASP.NET Core model-validation layer, and a bare application code with
+  no message from the controllers' own guard clauses. There is no published error reference;
+  the codes below are the ones observed, and ERR_1101 is the only application code seen.
+
+x-error-formats:
+  - name: RFC 9457 problem document
+    emitted_by: ASP.NET Core model validation
+    content_type: application/json
+    detail: >-
+      Carries type, title, status, a field-keyed errors map and a W3C traceId. Machine-readable
+      and self-describing — the better of the two formats.
+    shape:
+      type: https://tools.ietf.org/html/rfc9110#section-15.5.1
+      title: One or more validation errors occurred.
+      status: 400
+      errors: '{ "<field>": ["<message>"] }'
+      traceId: '00-<trace-id>-<span-id>-00'
+  - name: Bare application code
+    emitted_by: Controller guard clauses
+    content_type: application/json
+    detail: >-
+      A single code member, 19 bytes, no message, no title, no status member, no trace id, and
+      no published lookup table. A caller receiving this has the HTTP status and nothing else.
+    shape:
+      code: ERR_1101
+
+errors:
+  - status: 400
+    format: bare-code
+    code: ERR_1101
+    meaning: A required parameter was omitted.
+    observed_on:
+      - https://shnaton.huji.ac.il/api/specializations/all
+      - https://shnaton.huji.ac.il/api/reference-data/assignment-filter-options
+    body: '{"code":"ERR_1101"}'
+    resolution: Supply the required `year` query parameter, taken from /reference-data/active-years.
+
+  - status: 400
+    format: problem-details
+    meaning: A parameter was present but failed validation.
+    observed_on:
+      - https://shnaton.huji.ac.il/api/specializations/search?year=2027
+      - https://shnaton.huji.ac.il/api/yearly-roadmaps/search?name=x&year=2027
+    examples:
+      - trigger: '`name` omitted entirely'
+        errors: 'name: ["The name field is required."]'
+      - trigger: '`name` one character long'
+        errors: 'name: ["The field name must be a string with a minimum length of 2 and a maximum length of 100."]'
+    resolution: Send a `name` of 2–100 characters.
+
+  - status: 404
+    format: empty
+    meaning: Unrouted path. Returns a zero-byte body with no content type.
+    observed_on:
+      - https://shnaton.huji.ac.il/api/courses
+      - https://shnaton.huji.ac.il/api/department
+      - https://shnaton.huji.ac.il/api/cornerstone-courses
+    detail: >-
+      These three paths appear as string literals in the catalog's JavaScript bundle but are
+      client-side routes, not API routes. A 404 here means the path is not an endpoint, not
+      that a resource is missing.
+
+x-absent-behaviours:
+  - what: 401 / 403
+    detail: Never observed. The API is unauthenticated, so no authorization failure path exists.
+  - what: 429 rate limiting
+    detail: >-
+      No 429 was observed and no RateLimit or Retry-After header was returned on any response.
+      No rate limit is documented or advertised. Absence of an observed limit is not proof
+      there is none — it was not stress-tested, deliberately, against a live university service.
+  - what: Published error reference
+    detail: None exists. ERR_1101 has no public documentation; its meaning above is inferred from the conditions that trigger it.

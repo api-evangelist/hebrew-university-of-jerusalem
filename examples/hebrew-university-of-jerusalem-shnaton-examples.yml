@@ -1,0 +1,403 @@
+# x-method: derived
+# x-source-url: https://shnaton.huji.ac.il/api
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Examples
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+api: Shnaton Course Catalog API
+x-operator: institution
+generated: '2026-09-01'
+method: probed
+source: Live responses from https://shnaton.huji.ac.il/api captured 2026-09-01 with a browser User-Agent.
+  Each example below is a real, unmodified response body, truncated to the leading members where the full
+  payload is large.
+description: 'Real captured responses from the Hebrew University of Jerusalem Shnaton course catalog API.
+  Every example is an actual production response, not a synthesised one. Two deliberate reductions: long
+  arrays are truncated to their leading members and the truncation is stated, and the `teachers` member
+  of study sessions is omitted entirely because it carries named individuals — the shape is documented
+  in the OpenAPI, the personal data is not stored here.'
+examples:
+- operationId: getHealth
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/health
+  response:
+    status: 200
+    contentType: application/json
+    body: Healthy
+  note: Returned as text/plain, 7 bytes, not JSON.
+- operationId: listFaculties
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/faculties
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - id: 14
+      code: '015'
+      name:
+        he: ביה"ס לאחיות
+        en: Nursing school
+    - id: 21
+      code: '023'
+      name:
+        he: ביה"ס לבריאות הציבור
+        en: School of Public Health and Community Medicine
+    - id: 11
+      code: '012'
+      name:
+        he: ביה"ס להנדסה ולמדעי המחשב
+        en: The School of Computer Science & Engineering
+    - id: 19
+      code: '021'
+      name:
+        he: ביה"ס לחינוך ע"ש שלמה (סימור) פוקס
+        en: The Seymour Fox School of Education
+    truncated: First 4 of 21 faculties; full response 2,463 bytes.
+- operationId: listActiveYears
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/reference-data/active-years
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - id: 9
+      year: 2027
+      hebrewYear: תשפ"ז
+      current: true
+    - id: 7
+      year: 2026
+      hebrewYear: תשפ"ו
+      current: null
+    - id: 6
+      year: 2025
+      hebrewYear: תשפ"ה
+      current: null
+    - id: 5
+      year: 2024
+      hebrewYear: תשפ"ד
+      current: null
+    - id: 4
+      year: 2023
+      hebrewYear: תשפ"ג
+      current: null
+    - id: 3
+      year: 2022
+      hebrewYear: תשפ"ב
+      current: null
+    - id: 2
+      year: 2021
+      hebrewYear: תשפ"א
+      current: null
+    - id: 1
+      year: 2020
+      hebrewYear: תש"ף
+      current: null
+  note: 'The member with current: true is the year the catalog defaults to.'
+- operationId: listLanguages
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/reference-data/languages
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - code: '7'
+      name:
+        he: איטלקית
+        en: Italian
+    - code: '2'
+      name:
+        he: אנגלית
+        en: English
+    - code: '5'
+      name:
+        he: גרמנית
+        en: German
+    - code: '12'
+      name:
+        he: טורקית
+        en: Turkish
+    - code: '10'
+      name:
+        he: יידיש
+        en: Yiddish
+    truncated: First 5 of 13 languages; full response 1,011 bytes.
+- operationId: listStudySessionTypes
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/reference-data/study-session-types
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - code: '12'
+      name:
+        he: הדרכה
+        en: Instruction
+    - code: '32'
+      name:
+        he: מחנה לימוד
+        en: Study Camp
+    - code: '50'
+      name:
+        he: מטלה
+        en: Assignment
+    - code: '13'
+      name:
+        he: מכינה
+        en: Preparatory Program
+    - code: '7'
+      name:
+        he: מעבדה
+        en: Laboratory
+    truncated: First 5 of 24 session types; full response 2,430 bytes.
+- operationId: listLearningPrograms
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/learning-programs
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - id: 1
+      userCode: '001'
+      name:
+        he: בוגר
+        en: Bachelor's
+      displayName:
+        he: תואר ראשון
+        en: First degree
+      sortOrder: 1
+    - id: 4
+      userCode: '004'
+      name:
+        he: מוסמך
+        en: 'Master''s '
+      displayName:
+        he: תואר שני
+        en: Second degree
+      sortOrder: 2
+    - id: 2
+      userCode: '002'
+      name:
+        he: תעודה
+        en: Diploma
+      displayName: null
+      sortOrder: 3
+    truncated: First 3 of 9 degree programs; full response 1,902 bytes.
+- operationId: listAssignmentFilterOptions
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/reference-data/assignment-filter-options?year=2027
+  response:
+    status: 200
+    contentType: application/json
+    body:
+      source: gradeGroup
+      options:
+      - value: final_exam
+        name:
+          he: מבחן סופי
+          en: Final exam
+      - value: final_essay
+        name:
+          he: עבודת סיכום
+          en: Final Essay
+      - value: final_presentation
+        name:
+          he: הצגה מסכמת
+          en: Final Presentation
+- operationId: listSpecializations
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/specializations/all?year=2027
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - id: 1
+      code: '7080'
+      name:
+        he: חטיבה במדעי המוח בדגש חישובי
+        en: Unit in Brain Sciences with Computational Empasis
+      learningProgramName:
+        he: בוגר
+        en: Bachelor's
+      learningProgramDisplayName:
+        he: תואר ראשון
+        en: First degree
+      learningProgramCode: '001'
+      learningProgramSortOrder: 1
+      thresholds: []
+      academicInfo: null
+    truncated: First 1 of 153 specializations; full response 60,697 bytes.
+- operationId: searchSpecializations
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/specializations/search?name=%D7%9E%D7%97%D7%A9%D7%91%D7%99%D7%9D&year=2027
+  response:
+    status: 200
+    contentType: application/json
+    body: []
+  note: A well-formed query that matched nothing returns an empty array with HTTP 200, not a 404.
+- operationId: searchCoursesAdvanced
+  request:
+    method: POST
+    url: https://shnaton.huji.ac.il/api/courses/search-advanced?include=1
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - id: 508699
+      name:
+        he: '  קריאה בספר עץ חיים ובמפרשיו חלק א'
+        en: Reading the book Etz Hayyim and its Commentaries, part 1
+      code: '140713'
+      departmentId: 9
+      departmentName:
+        he: מחשבת ישראל
+        en: Jewish Thought
+      facultyName:
+        he: פקולטה למדעי הרוח
+        en: Faculty of Humanities
+      academicPoints: 2
+      teacherCode: null
+      remark: null
+      coursePeriod: 1
+      coursePeriodName:
+        he: סמסטר א
+        en: Semester A
+      coursePeriodOrder: 1
+      courseStructureType: שעור וסמינריון מאוחד
+      courseStructureID: 11
+      startDate: null
+      endDate: null
+      lastYearGradeAvg: null
+      sugToar: '004'
+      totalHours: 28
+      isLearning: 1
+      statusCourseCode: 2
+      year: 2027
+      groups:
+      - id: 95783
+        code: 5-01
+        startDate: null
+        endDate: null
+        qualifyingAttendance: null
+        year: 2027
+        period: 1
+        periodName:
+          he: סמסטר א'
+          en: 1st semester
+        languageName:
+          he: עברית
+          en: Hebrew
+        languageCode: '0'
+        isClinic: false
+        isManageAssignments: true
+        remark: null
+        courseId: 508699
+        studySessionTypeId: 47
+        studySessionTypeCode: '5'
+        studySessionTypeName:
+          he: שעור וסמינריון
+          en: Lesson and Seminar
+        creationDate: '0001-01-01T00:00:00'
+        studySessions: []
+      studySessionTypeName:
+        he: שעור וסמינריון
+        en: Lesson and Seminar
+    truncated: First 1 of 6,355 courses. The full response to {"textQuery":"computer","year":2027} was
+      14,153,560 bytes in a single unpaginated payload.
+  note: 'Request body: {"textQuery": "computer", "year": 2027}. The operation is unpaginated — filter
+    narrowly.'
+- operationId: getCourseRequirements
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/courses/code/140713/requirements?year=2027
+  response:
+    status: 200
+    contentType: application/json
+    body:
+      positiveRequirements: null
+      negativeRequirements: null
+      additionalRequirements: false
+  note: All three members null/false where the registrar records no prerequisites.
+- operationId: getSyllabus
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/syllabus?courseCode=140713&year=2027
+  response:
+    status: 200
+    contentType: application/json
+    body:
+      courseCode: '140713'
+      year: 2027
+      courseName:
+        he: '  קריאה בספר עץ חיים ובמפרשיו חלק א'
+        en: Reading the book Etz Hayyim and its Commentaries, part 1
+      periodName:
+        he: סמסטר א
+        en: Semester A
+      ectsCredits: null
+      degreeLevel: null
+      creditPoints: '2'
+      academicYear: null
+      semester: '1'
+    truncated: Leading members of a 1,756-byte response.
+- operationId: getGroupStudySessions
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/groups/95783/study-sessions?year=2027
+  response:
+    status: 200
+    contentType: application/json
+    body:
+    - id: 38761631
+      roomId: 202
+      courseId: 508699
+      period: 1
+      dayOfWeek: 2
+      startTime: 52200000
+      endTime: 57600000
+      isRecorded: true
+      isLiveBroadcast: false
+      teachingTypeId: 1
+      groupId: 95783
+      year: 2027
+      calendarFrequency: null
+    truncated: First 1 session of a 3,768-byte response, with personal data removed.
+  note: The `teachers` array present in the real response is OMITTED here — it carries named individuals.
+    startTime 52200000 ms after local midnight is 14:30; dayOfWeek 2 is Monday on a week that starts Sunday.
+- operationId: searchYearlyRoadmaps
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/yearly-roadmaps/search?name=x&year=2027
+  response:
+    status: 400
+    contentType: application/json
+    body:
+      type: https://tools.ietf.org/html/rfc9110#section-15.5.1
+      title: One or more validation errors occurred.
+      status: 400
+      errors:
+        name:
+        - The field name must be a string with a minimum length of 2 and a maximum length of 100.
+      traceId: 00-REDACTED-REDACTED-00
+  note: RFC 9457 problem document. traceId redacted — it is per-request and carries no catalog meaning.
+- operationId: listAssignmentFilterOptions
+  request:
+    method: GET
+    url: https://shnaton.huji.ac.il/api/reference-data/assignment-filter-options
+  response:
+    status: 400
+    contentType: application/json
+    body:
+      code: ERR_1101
+  note: 'The second, incompatible error style: a bare code with no message, returned when a required year
+    parameter is missing.'

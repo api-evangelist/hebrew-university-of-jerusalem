@@ -1,0 +1,90 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "@vocab": "https://schema.org/",
+    "huji": "https://shnaton.huji.ac.il/ns#",
+    "apis": "https://apis.io/ns#"
+  },
+  "@type": "WebAPI",
+  "@id": "https://shnaton.huji.ac.il/api",
+  "name": "Hebrew University of Jerusalem Shnaton Course Catalog API",
+  "alternateName": "שנתון האוניברסיטה העברית",
+  "description": "The public, unauthenticated read API behind shnaton.huji.ac.il, the Hebrew University of Jerusalem's official course catalog. Exposes faculties, degree programs, specializations, courses, course groups, timetabled study sessions and syllabi for academic years 2020 through 2027. Institution-operated: the host resolves inside the university's own ILAN/IUCC allocation on AS378 and presents a certificate issued to The Hebrew University of Jerusalem.",
+  "inLanguage": ["he", "en"],
+  "url": "https://shnaton.huji.ac.il/",
+  "documentation": "https://raw.githubusercontent.com/api-evangelist/hebrew-university-of-jerusalem/main/openapi/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml",
+  "provider": {
+    "@type": "CollegeOrUniversity",
+    "@id": "https://ror.org/03qxff017",
+    "name": "The Hebrew University of Jerusalem",
+    "alternateName": "האוניברסיטה העברית בירושלים",
+    "url": "https://en.huji.ac.il/",
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "ROR",
+        "value": "https://ror.org/03qxff017"
+      },
+      {
+        "@type": "PropertyValue",
+        "propertyID": "OpenAlex",
+        "value": "https://openalex.org/I197251160"
+      }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Jerusalem",
+      "addressCountry": "IL"
+    }
+  },
+  "isAccessibleForFree": true,
+  "potentialAction": [
+    {
+      "@type": "SearchAction",
+      "name": "Advanced course search",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://shnaton.huji.ac.il/api/courses/search-advanced",
+        "httpMethod": "POST",
+        "contentType": "application/json"
+      },
+      "query-input": "required name=textQuery"
+    },
+    {
+      "@type": "FindAction",
+      "name": "Get a course syllabus",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://shnaton.huji.ac.il/api/syllabus?courseCode={courseCode}&year={year}",
+        "httpMethod": "GET"
+      }
+    }
+  ],
+  "hasPart": [
+    {
+      "@type": "Dataset",
+      "@id": "https://shnaton.huji.ac.il/api/faculties",
+      "name": "Faculties and schools",
+      "description": "Every faculty and school of the university with its registrar code and bilingual name."
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://shnaton.huji.ac.il/api/specializations/all",
+      "name": "Specializations",
+      "description": "Named units and concentrations within each degree program, keyed to a threshold year."
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://shnaton.huji.ac.il/api/courses/search-advanced",
+      "name": "Courses",
+      "description": "The published course catalog, with groups and timetabled study sessions. Unpaginated."
+    }
+  ],
+  "apis:operator": "institution",
+  "apis:operatorBasis": "shnaton.huji.ac.il CNAME orb-bif5.cc.huji.ac.il, A 128.139.7.32 in RIPE inetnum 128.139.0.0/16 (ILAN, registrant IUCC), AS378 MACHBA-AS; TLS subject O=The Hebrew University of Jerusalem, CN=*.huji.ac.il issued via GEANT TCS.",
+  "apis:provenance": {
+    "method": "derived",
+    "generated": "2026-09-01",
+    "source": "Derived by API Evangelist from the catalog's own JavaScript client and live probes of the production host. NOT published by the Hebrew University of Jerusalem."
+  }
+}

@@ -1,0 +1,194 @@
+# x-method: derived
+# x-source-url: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Domain Standard Conformance
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+regime: education
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes on 2026-09-01 of the SAML 2.0 EntityDescriptor at
+  https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php (HTTP 200, application/xml,
+  archived at identity-federation/hebrew-university-of-jerusalem-idp-saml-metadata.xml); the
+  OAI-PMH endpoint at https://cris.huji.ac.il/ws/oai, exercised with verbs Identify,
+  ListMetadataFormats and ListSets; the Crossref members API at https://api.crossref.org/members;
+  the ROR API at https://api.ror.org/v2/organizations; and the DataCite providers and clients
+  APIs at https://api.datacite.org. Operator for each host was settled by DNS and RIPE RDAP
+  resolution, not by hostname.
+description: >-
+  Conformance against the Kin Score `education` regime standards list — scim, lti, oneroster,
+  ed-fi, caliper, qti, oai-pmh, shibboleth, saml, orcid, datacite, crossref. Reward-only: a
+  standard is recorded as conformant for the Hebrew University only where a live contract
+  demonstrates it, and the operator of that contract is stated in every case so that a standard
+  reached through a vendor platform is never silently credited to the university's own
+  engineering.
+
+  Two standards are met by the institution's own infrastructure, one is met by a vendor platform
+  the university is a tenant of, and one identifier registry records the university as a member.
+  Everything else on the regime list is absent, and the absences are enumerated rather than left
+  unstated — a university that does not run an LMS integration surface is a correct measurement,
+  not a gap in the probe.
+
+conforms:
+  - standard: saml
+    name: SAML 2.0
+    status: conformant
+    x-operator: institution
+    confidence: high
+    detail: >-
+      The university publishes a complete, live, machine-readable SAML 2.0 EntityDescriptor for
+      its own identity provider, served from its own address space and signed with its own key.
+      This is institution-operated conformance with no vendor in the path.
+    evidence:
+      url: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+      status: 200
+      content_type: application/xml
+      bytes: 4548
+      entity: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+      locations:
+        - 'EntityDescriptor[@entityID="https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php"]'
+        - 'EntityDescriptor/IDPSSODescriptor[@protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"]'
+        - 'IDPSSODescriptor/SingleSignOnService[@Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"][@Location="https://idp.cc.huji.ac.il/simplesaml/saml2/idp/SSOService.php"]'
+        - 'IDPSSODescriptor/SingleLogoutService[@Location="https://idp.cc.huji.ac.il/simplesaml/saml2/idp/SingleLogoutService.php"]'
+        - 'IDPSSODescriptor/NameIDFormat = urn:oasis:names:tc:SAML:2.0:nameid-format:emailAddress'
+        - 'IDPSSODescriptor/KeyDescriptor[@use="signing"]/ds:KeyInfo/ds:X509Data/ds:X509Certificate'
+      corroboration:
+        resolved_ip: 128.139.7.22
+        cname: none
+        ip_owner: 'RIPE inetnum 128.139.0.0/16 "ILAN", registrant ORG-IIIC1-RIPE — IUCC, Israel InterUniversity Computation Center'
+        autonomous_system: AS378 MACHBA-AS
+        certificate_subject: 'O=Hebrew University, OU=The authority for computation,communication and information, CN=idp1.cc.huji.ac.il'
+        note: >-
+          Self-issued institutional certificate on institutional address space, with no CNAME to a
+          managed identity service. Expires 2026-09-22 — see the identity-federation artifact.
+
+  - standard: oai-pmh
+    name: OAI-PMH 2.0
+    status: conformant
+    x-operator: tenant
+    confidence: high
+    detail: >-
+      A fully working OAI-PMH 2.0 repository is published at the university's own hostname, and
+      it answers real protocol verbs rather than merely returning 200 on a landing page. The
+      operator is recorded as tenant, not institution, and that distinction is the point:
+      cris.huji.ac.il is a CNAME to huji.elsevierpure.com and then to eu.prod.elsevierpure.com,
+      and the Identify response names "Pure OAI Repository" with adminEmail noreply@atira.dk —
+      Atira being the Elsevier subsidiary that builds Pure. The metadata harvested is the
+      university's research output; the OAI-PMH implementation is Elsevier's engineering. The
+      conformance is real and it belongs to the deployment, not to the university's own code.
+    evidence:
+      url: https://cris.huji.ac.il/ws/oai?verb=Identify
+      status: 200
+      content_type: application/xml
+      locations:
+        - 'OAI-PMH/Identify/repositoryName = Pure OAI Repository'
+        - 'OAI-PMH/Identify/baseURL = https://cris.huji.ac.il/ws/oai'
+        - 'OAI-PMH/Identify/protocolVersion = 2.0'
+        - 'OAI-PMH/Identify/earliestDatestamp = 2021-05-27T10:30:58Z'
+        - 'OAI-PMH/Identify/granularity = YYYY-MM-DDThh:mm:ssZ'
+        - 'OAI-PMH/Identify/adminEmail = noreply@atira.dk'
+      verbs_exercised:
+        - verb: Identify
+          status: 200
+        - verb: ListMetadataFormats
+          status: 200
+          returned: [oai_dc, mods, qdc, mods_swepub, xmetadiss, nl_didl, uketd_dc]
+        - verb: ListSets
+          status: 200
+          returned: ['persons:all', 'publications:all', 'publications:withFiles', 'publications:year0', 'publications:year1', 'publications:year2', 'publications:year3']
+      corroboration:
+        cname_chain: cris.huji.ac.il -> huji.elsevierpure.com -> eu.prod.elsevierpure.com -> Cloudflare
+        note: >-
+          The OpenAIRE CERIF 1.2 profile is declared in the response schemaLocation, which is a
+          Pure platform feature.
+
+  - standard: crossref
+    name: Crossref member registration
+    status: registered
+    x-operator: registry
+    confidence: high
+    detail: >-
+      Two Hebrew University units are registered Crossref members and appear in the Crossref
+      members API under their own member ids. This is recorded as a registry membership — a fact
+      about the institution — and explicitly NOT as conformance of an institution-operated
+      contract. Crossref's API is Crossref's; no Crossref contract is saved in this repository.
+    evidence:
+      url: https://api.crossref.org/members?query=Hebrew+University
+      status: 200
+      members:
+        - id: 2773
+          name: Hebrew University Magnes Press
+        - id: 30154
+          name: Institute of Archaeology, the Hebrew University of Jerusalem
+
+  - standard: ror
+    name: Research Organization Registry
+    status: registered
+    x-operator: registry
+    confidence: high
+    detail: >-
+      The institution holds a ROR identifier. Listed for completeness of the identity surface;
+      ROR is not itself on the education regime's standards list.
+    evidence:
+      url: https://api.ror.org/v2/organizations?query=Hebrew%20University%20of%20Jerusalem
+      status: 200
+      ror_id: https://ror.org/03qxff017
+      display_name: Hebrew University of Jerusalem
+
+not_conformant:
+  - standard: shibboleth
+    detail: >-
+      Deliberately NOT claimed. The university's identity provider is SimpleSAMLphp, a different
+      implementation of the same SAML 2.0 protocol. shibboleth.huji.ac.il is NXDOMAIN and no
+      Shibboleth-specific artifact (no /idp/shibboleth handler, no Shibboleth metadata extension)
+      was found. Crediting Shibboleth here on the strength of the SAML finding would be exactly
+      the kind of inflation this pipeline exists to prevent.
+    probed:
+      - url: https://shibboleth.huji.ac.il/idp/shibboleth
+        status: 0
+      - url: https://idp.huji.ac.il/idp/shibboleth
+        status: 0
+  - standard: datacite
+    detail: >-
+      NOT claimed. The DataCite providers API returns zero results for "Hebrew University" and the
+      clients API returns zero repositories, so the university is not a DataCite member or
+      repository operator. 2,315 DOIs carry the university's ROR as a creator affiliation, but
+      those were minted by other registrants and are a fact about where the authors work, not a
+      DataCite membership held by the institution.
+    probed:
+      - url: https://api.datacite.org/providers?query=Hebrew%20University
+        status: 200
+        result: 0 providers
+      - url: https://api.datacite.org/clients?query=Hebrew%20University
+        status: 200
+        result: 0 clients
+  - standard: orcid
+    detail: No institution-operated ORCID integration surface was found. Not claimed.
+  - standard: scim
+    detail: No SCIM provisioning endpoint found on any probed host. Not claimed.
+  - standard: lti
+    detail: >-
+      The university runs Moodle at moodle.huji.ac.il, which supports LTI as a platform feature,
+      but no LTI registration, deployment or tool-configuration surface is publicly exposed and
+      the Moodle instance is the vendor's software in any case. Not claimed.
+  - standard: oneroster
+    detail: No OneRoster endpoint found. Not claimed.
+  - standard: ed-fi
+    detail: Not applicable — Ed-Fi is a US K-12 and state-agency standard. Not claimed.
+  - standard: caliper
+    detail: No Caliper analytics endpoint found. Not claimed.
+  - standard: qti
+    detail: No QTI assessment surface found. Not claimed.
+
+x-summary:
+  institution_operated_conformance: [saml]
+  tenant_operated_conformance: [oai-pmh]
+  registry_memberships: [crossref, ror]
+  not_conformant: [shibboleth, datacite, orcid, scim, lti, oneroster, ed-fi, caliper, qti]
+  note: >-
+    One standard on the education regime list is met by the university's own infrastructure
+    (saml). One more is met at a university hostname by a vendor platform (oai-pmh, Elsevier
+    Pure). Crossref membership is a registry fact. Everything else is absent and enumerated.

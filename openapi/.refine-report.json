@@ -1,0 +1,32 @@
+{
+  "provider": "hebrew-university-of-jerusalem",
+  "sources": [
+    "_original/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml"
+  ],
+  "outputs": [
+    "hebrew-university-of-jerusalem-courses-api-openapi.yml",
+    "hebrew-university-of-jerusalem-organization-api-openapi.yml",
+    "hebrew-university-of-jerusalem-reference-data-api-openapi.yml",
+    "hebrew-university-of-jerusalem-service-api-openapi.yml",
+    "hebrew-university-of-jerusalem-specializations-api-openapi.yml",
+    "hebrew-university-of-jerusalem-syllabus-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi_2.yml: archived document superseded by a larger archived document",
+    "hebrew-university-of-jerusalem-courses-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hebrew-university-of-jerusalem-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hebrew-university-of-jerusalem-reference-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hebrew-university-of-jerusalem-service-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hebrew-university-of-jerusalem-specializations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hebrew-university-of-jerusalem-syllabus-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

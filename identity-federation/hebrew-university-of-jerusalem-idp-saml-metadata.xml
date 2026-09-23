@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php">
+  <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIEhzCCA2+gAwIBAgIJAOEw5oF5GtqqMA0GCSqGSIb3DQEBCwUAMIHZMQswCQYDVQQGEwJJTDESMBAGA1UECAwJSmVydXNhbGVtMRIwEAYDVQQHDAlKZXJ1c2FsZW0xGjAYBgNVBAoMEUhlYnJldyBVbml2ZXJzaXR5MUQwQgYDVQQLDDtUaGUgYXV0aG9yaXR5IGZvciBjb21wdXRhdGlvbixjb21tdW5pY2F0aW9uIGFuZCBpbmZvcm1hdGlvbjEbMBkGA1UEAwwSaWRwMS5jYy5odWppLmFjLmlsMSMwIQYJKoZIhvcNAQkBFhRzc29ib3hAY2MuaHVqaS5hYy5pbDAeFw0xNjA5MjIwNzA4MDZaFw0yNjA5MjIwNzA4MDZaMIHZMQswCQYDVQQGEwJJTDESMBAGA1UECAwJSmVydXNhbGVtMRIwEAYDVQQHDAlKZXJ1c2FsZW0xGjAYBgNVBAoMEUhlYnJldyBVbml2ZXJzaXR5MUQwQgYDVQQLDDtUaGUgYXV0aG9yaXR5IGZvciBjb21wdXRhdGlvbixjb21tdW5pY2F0aW9uIGFuZCBpbmZvcm1hdGlvbjEbMBkGA1UEAwwSaWRwMS5jYy5odWppLmFjLmlsMSMwIQYJKoZIhvcNAQkBFhRzc29ib3hAY2MuaHVqaS5hYy5pbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAODKdn3OaZH9vMtqgqkgUKMB9HPkKPDT/MGtSAa7kaHU45oKYTsSoTmZdPKi6avBxUOxB1ONMsjbIJmkznNS2v1No55oor1a18LWLEU/e5CS/iP3P0IyTjwHZ55xeeRAc5CcBQxD1lHQzF4KpMVl4jV5aU4I9KtLm5+W72gSBk8JdK0m/rk4384Krm3dVBP0WH3K2mb35sR+nokPG4E9LQbr9xSr+WNrfJr974fE14ls+DzD+qQIkkU4nZUJpFPt2uIQHwpaomHM9R4VoTqod4BtJMxvHs45uKMQQyh/mmgb+IfBQFLJk5WCTLT7+2Mgdlswcsys3rqKR6BK+XwZF5UCAwEAAaNQME4wHQYDVR0OBBYEFAo+/tw9Q7rpnDJPhNP9zr/X9ZtoMB8GA1UdIwQYMBaAFAo+/tw9Q7rpnDJPhNP9zr/X9ZtoMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHLM09wWGCFrT56TMI/nWLPejXYTpM29U+JKQUdv1GB7TfGw8ckMRKQdc2Mc2h3dZxbDTIBkyz7It6dNEcpK8EVCBosE0DVHxwM4lDAzMA3uAyafdpyxX7+v8QIrQ1D4KfbnSOGDSFDQFpXXC/gPgfmmYfjuoUa5/6oTIIFz1xHir6cH8BOH8vqca54N0RddBjRlEIyZKH4OenLSEKwstTUy8CwN/Etup9t78/XIaS78FaC2MhqiuO8hBjyuHBwT+MnxU/oyx4zmjWD6kR/KkdAq5nx2ve8++MwpDAWWvoiSw6sQNTN0DHR9tKvqcIEL+cmv/SVtPmbsg3feADBdCi0=</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:KeyDescriptor use="encryption">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <ds:X509Certificate>MIIEhzCCA2+gAwIBAgIJAOEw5oF5GtqqMA0GCSqGSIb3DQEBCwUAMIHZMQswCQYDVQQGEwJJTDESMBAGA1UECAwJSmVydXNhbGVtMRIwEAYDVQQHDAlKZXJ1c2FsZW0xGjAYBgNVBAoMEUhlYnJldyBVbml2ZXJzaXR5MUQwQgYDVQQLDDtUaGUgYXV0aG9yaXR5IGZvciBjb21wdXRhdGlvbixjb21tdW5pY2F0aW9uIGFuZCBpbmZvcm1hdGlvbjEbMBkGA1UEAwwSaWRwMS5jYy5odWppLmFjLmlsMSMwIQYJKoZIhvcNAQkBFhRzc29ib3hAY2MuaHVqaS5hYy5pbDAeFw0xNjA5MjIwNzA4MDZaFw0yNjA5MjIwNzA4MDZaMIHZMQswCQYDVQQGEwJJTDESMBAGA1UECAwJSmVydXNhbGVtMRIwEAYDVQQHDAlKZXJ1c2FsZW0xGjAYBgNVBAoMEUhlYnJldyBVbml2ZXJzaXR5MUQwQgYDVQQLDDtUaGUgYXV0aG9yaXR5IGZvciBjb21wdXRhdGlvbixjb21tdW5pY2F0aW9uIGFuZCBpbmZvcm1hdGlvbjEbMBkGA1UEAwwSaWRwMS5jYy5odWppLmFjLmlsMSMwIQYJKoZIhvcNAQkBFhRzc29ib3hAY2MuaHVqaS5hYy5pbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAODKdn3OaZH9vMtqgqkgUKMB9HPkKPDT/MGtSAa7kaHU45oKYTsSoTmZdPKi6avBxUOxB1ONMsjbIJmkznNS2v1No55oor1a18LWLEU/e5CS/iP3P0IyTjwHZ55xeeRAc5CcBQxD1lHQzF4KpMVl4jV5aU4I9KtLm5+W72gSBk8JdK0m/rk4384Krm3dVBP0WH3K2mb35sR+nokPG4E9LQbr9xSr+WNrfJr974fE14ls+DzD+qQIkkU4nZUJpFPt2uIQHwpaomHM9R4VoTqod4BtJMxvHs45uKMQQyh/mmgb+IfBQFLJk5WCTLT7+2Mgdlswcsys3rqKR6BK+XwZF5UCAwEAAaNQME4wHQYDVR0OBBYEFAo+/tw9Q7rpnDJPhNP9zr/X9ZtoMB8GA1UdIwQYMBaAFAo+/tw9Q7rpnDJPhNP9zr/X9ZtoMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHLM09wWGCFrT56TMI/nWLPejXYTpM29U+JKQUdv1GB7TfGw8ckMRKQdc2Mc2h3dZxbDTIBkyz7It6dNEcpK8EVCBosE0DVHxwM4lDAzMA3uAyafdpyxX7+v8QIrQ1D4KfbnSOGDSFDQFpXXC/gPgfmmYfjuoUa5/6oTIIFz1xHir6cH8BOH8vqca54N0RddBjRlEIyZKH4OenLSEKwstTUy8CwN/Etup9t78/XIaS78FaC2MhqiuO8hBjyuHBwT+MnxU/oyx4zmjWD6kR/KkdAq5nx2ve8++MwpDAWWvoiSw6sQNTN0DHR9tKvqcIEL+cmv/SVtPmbsg3feADBdCi0=</ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </md:KeyDescriptor>
+    <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://idp.cc.huji.ac.il/simplesaml/saml2/idp/SingleLogoutService.php"/>
+    <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:emailAddress</md:NameIDFormat>
+    <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://idp.cc.huji.ac.il/simplesaml/saml2/idp/SSOService.php"/>
+  </md:IDPSSODescriptor>
+  <md:ContactPerson contactType="technical">
+    <md:GivenName>Administrator</md:GivenName>
+    <md:EmailAddress>root@idp2.cc.huji.ac.il</md:EmailAddress>
+  </md:ContactPerson>
+</md:EntityDescriptor>

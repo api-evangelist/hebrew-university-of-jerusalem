@@ -1,0 +1,195 @@
+openapi: 3.2.0
+info:
+  title: Hebrew University of Jerusalem Shnaton Course Catalog…
+  version: '2027'
+  summary: Public, unauthenticated JSON API behind the Hebrew University of Jerusalem's Shnaton course catalog.
+  description: The read API that serves shnaton.huji.ac.il, the Hebrew University of Jerusalem's official course catalog ("Shnaton" / שנתון).
+  contact:
+    name: Hebrew University of Jerusalem — Shnaton course catalog
+    url: https://shnaton.huji.ac.il/
+  termsOfService: https://en.huji.ac.il/en/accessibility-statement
+  x-operator: institution
+  x-operator-basis: 'shnaton.huji.ac.il CNAME -> orb-bif5.cc.huji.ac.il -> 128.139.7.32; RIPE inetnum 128.139.0.0/16 "ILAN", registrant ORG-IIIC1-RIPE (IUCC - Israel InterUniversity Computation Center), announced by AS378 MACHBA-AS; TLS subject O=The Hebrew University of Jerusalem, CN=*.huji.ac.il, issuer GEANT TLS RSA 1 (Hellenic Academic and Research Institutions CA); response header X-HujiShnatonServer: Server 2.'
+  x-provenance:
+    method: derived
+    generated: '2026-09-01'
+    source:
+    - https://shnaton.huji.ac.il/assets/index-DcMgIxCt.js
+    - https://shnaton.huji.ac.il/api/health
+    - https://shnaton.huji.ac.il/api/faculties
+    - https://shnaton.huji.ac.il/api/courses/search-advanced
+    note: Derived by API Evangelist from the catalog's own JavaScript client plus live probes of the production host. NOT published by the Hebrew University of Jerusalem.
+servers:
+- url: https://shnaton.huji.ac.il/api
+  description: Production. Public and unauthenticated; verified live 2026-09-01.
+tags:
+- name: Reference Data
+  description: Enumerations the catalog is indexed by — academic years, languages, session types, assignment filters.
+paths:
+  /reference-data/active-years:
+    get:
+      tags:
+      - Reference Data
+      operationId: listActiveYears
+      summary: List academic years the catalog is published for
+      description: Academic years with both Gregorian (`year`) and Hebrew (`hebrewYear`) forms. The year whose `current` is `true` is the one the catalog defaults to. Verified 200, 495 bytes, 2026-09-01.
+      responses:
+        '200':
+          description: Academic year list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicYear'
+  /reference-data/threshold-years:
+    get:
+      tags:
+      - Reference Data
+      operationId: listThresholdYears
+      summary: List roadmap threshold years
+      description: The academic years usable as a `thresholdYear` — the year of entry a study roadmap or specialization requirement set is keyed to. Same shape as active years. Verified 200, 495 bytes, 2026-09-01.
+      responses:
+        '200':
+          description: Threshold year list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicYear'
+  /reference-data/languages:
+    get:
+      tags:
+      - Reference Data
+      operationId: listLanguages
+      summary: List languages of instruction
+      description: Languages a course group may be taught in. Verified 200, 1,011 bytes, 2026-09-01.
+      responses:
+        '200':
+          description: Language list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodedTerm'
+  /reference-data/study-session-types:
+    get:
+      tags:
+      - Reference Data
+      operationId: listStudySessionTypes
+      summary: List study session types
+      description: The kinds of timetabled session the university runs — lecture, seminar, lab, clinic, preparatory program and so on. Verified 200, 2,430 bytes, 2026-09-01.
+      responses:
+        '200':
+          description: Study session type list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodedTerm'
+  /reference-data/assignment-filter-options:
+    get:
+      tags:
+      - Reference Data
+      operationId: listAssignmentFilterOptions
+      summary: List assessment-type filter options
+      description: The assessment types courses can be filtered by for a given year — final exam, final essay, final presentation. `year` is REQUIRED; omitting it returns HTTP 400 with body `{"code":"ERR_1101"}`. Verified 200, 284 bytes, 2026-09-01.
+      parameters:
+      - $ref: '#/components/parameters/YearRequired'
+      responses:
+        '200':
+          description: Assignment filter options.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentFilterOptions'
+        '400':
+          $ref: '#/components/responses/CodedError'
+components:
+  schemas:
+    AssignmentFilterOptions:
+      type: object
+      properties:
+        source:
+          type: string
+          example: gradeGroup
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                $ref: '#/components/schemas/BilingualText'
+    CodedError:
+      type: object
+      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
+      properties:
+        code:
+          type: string
+          example: ERR_1101
+      required:
+      - code
+    AcademicYear:
+      type: object
+      properties:
+        id:
+          type: integer
+        year:
+          type: integer
+          description: Gregorian year the academic year is labelled by.
+        hebrewYear:
+          type: string
+          description: Hebrew academic year, e.g. תשפ"ז.
+        current:
+          type:
+          - boolean
+          - 'null'
+          description: True on exactly one member — the year the catalog defaults to.
+      required:
+      - id
+      - year
+      - hebrewYear
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
+    CodedTerm:
+      type: object
+      description: A reference-data enumeration member.
+      properties:
+        code:
+          type: string
+        name:
+          $ref: '#/components/schemas/BilingualText'
+      required:
+      - code
+      - name
+  responses:
+    CodedError:
+      description: Application-coded error — a bare code object, no problem document.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CodedError'
+  parameters:
+    YearRequired:
+      name: year
+      in: query
+      required: true
+      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
+      schema:
+        type: integer
+      example: 2027

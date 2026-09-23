@@ -1,0 +1,133 @@
+# x-method: derived
+# x-source-url: https://shnaton.huji.ac.il/api
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: Spectral Ruleset
+specificationVersion: '1.0'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+api: Shnaton Course Catalog API
+x-operator: institution
+x-provenance:
+  generated: '2026-09-01'
+  method: derived
+  source: >-
+    Derived by API Evangelist from the observed conventions of
+    https://shnaton.huji.ac.il/api, captured live on 2026-09-01. The Hebrew University of
+    Jerusalem publishes no ruleset; this encodes the conventions the API was measured to
+    follow so that drift from them becomes visible, and flags the two places where the
+    service is already inconsistent with itself.
+description: >-
+  A Spectral ruleset written against the Shnaton course catalog API's real behaviour. Built
+  on Spectral's own built-in functions only — no custom JavaScript — so it runs anywhere
+  Spectral runs.
+extends:
+  - spectral:oas
+rules:
+  huji-shnaton-server-is-institution-operated:
+    description: >-
+      The only server this contract may describe is the university's own host. A server on a
+      vendor domain would mean the contract is no longer the institution's, which is the
+      failure mode the university profiling pipeline exists to prevent.
+    message: '{{property}} must remain under shnaton.huji.ac.il — a vendor host means this is not the institution''s contract'
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://shnaton\.huji\.ac\.il/api$'
+
+  huji-shnaton-operator-declared:
+    description: Every contract in this repository must declare who operates the thing it describes.
+    message: info.x-operator is required
+    severity: error
+    given: $.info
+    then:
+      field: x-operator
+      function: truthy
+
+  huji-shnaton-provenance-declared:
+    description: >-
+      This contract was derived, not published by the university. The provenance block must
+      say so, because an unmarked artifact is credited to the institution as though it
+      published it.
+    message: info.x-provenance is required and must record how this document came to exist
+    severity: error
+    given: $.info
+    then:
+      field: x-provenance
+      function: truthy
+
+  huji-shnaton-bilingual-text:
+    description: >-
+      Human-readable text is bilingual throughout this API. A BilingualText object must keep
+      its Hebrew member, which is the primary one — the English member is frequently empty
+      and must never be treated as the canonical name.
+    message: BilingualText must require the Hebrew member `he`
+    severity: error
+    given: $.components.schemas.BilingualText
+    then:
+      field: required
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            const: he
+
+  huji-shnaton-year-parameter-required:
+    description: >-
+      Year-scoped operations fail with HTTP 400 when `year` is omitted, so the parameter must
+      be declared required. Declaring it optional would describe a call that cannot succeed.
+    message: The `year` parameter must be declared required
+    severity: error
+    given: $.components.parameters.YearRequired
+    then:
+      field: required
+      function: truthy
+
+  huji-shnaton-operation-described:
+    description: Every operation carries a description naming what it returns and when it was verified.
+    message: Operation is missing a description
+    severity: warn
+    given: $.paths[*][get,post]
+    then:
+      field: description
+      function: truthy
+
+  huji-shnaton-error-response-declared:
+    description: >-
+      Operations that take a required parameter must document the 400 they return when it is
+      missing or malformed, in one of the API's two error formats.
+    message: A parameterised operation should declare its 400 response
+    severity: warn
+    given: $.paths[*][get,post].responses
+    then:
+      function: truthy
+
+  huji-shnaton-no-unpaginated-bulk-without-warning:
+    description: >-
+      /courses/search-advanced returns the entire matching set unpaginated — 14 MB and 6,355
+      courses for a single broad query. The description must keep warning callers, because
+      there is no pagination parameter to discover.
+    message: The advanced course search description must warn that responses are unpaginated and large
+    severity: warn
+    given: $.paths['/courses/search-advanced'].post.description
+    then:
+      function: pattern
+      functionOptions:
+        match: 'unpaginated'
+
+x-known-inconsistencies:
+  - id: two-error-formats
+    detail: >-
+      The service emits RFC 9457 problem documents from its validation layer and bare
+      {code} objects from its controllers. A ruleset cannot fix this; it is recorded so the
+      inconsistency is not read as an error in this contract.
+    severity: informational
+  - id: client-routes-in-bundle
+    detail: >-
+      /courses, /department and /cornerstone-courses appear in the catalog's JavaScript but
+      are client-side routes, not API paths, and return 404. They are deliberately absent
+      from this contract.
+    severity: informational

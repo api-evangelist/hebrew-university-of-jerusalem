@@ -1,0 +1,99 @@
+# x-method: derived
+# x-source-url: https://shnaton.huji.ac.il/api
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Lifecycle
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+api: Shnaton Course Catalog API
+x-operator: institution
+generated: '2026-09-01'
+method: probed
+source: >-
+  Observed from https://shnaton.huji.ac.il/api and https://shnaton.huji.ac.il/ on 2026-09-01 —
+  the academic years the catalog publishes, the build fingerprint of its front end, and the
+  response headers of its production hosts.
+description: >-
+  How the Hebrew University of Jerusalem's course catalog API is versioned, released and
+  retired — as far as any of that can be observed, which is not far. There is no version in the
+  path, no version header, no changelog, no deprecation policy and no status page. What the API
+  does have is an unusually clear domain-level lifecycle: the catalog is published per academic
+  year, prior years remain queryable, and `year` is a required parameter on most operations. The
+  academic year is the real versioning axis of this service, and a consumer should treat it as
+  such rather than waiting for a v2.
+
+versioning:
+  scheme: none-in-contract
+  path_versioning: false
+  header_versioning: false
+  media_type_versioning: false
+  detail: >-
+    The base path is /api with no version segment. No Api-Version, X-Api-Version or Accept
+    version parameter was observed on any response. A breaking change would arrive unannounced.
+  domain_versioning:
+    axis: academic year
+    parameter: year
+    detail: >-
+      Most operations require a `year`, and /reference-data/active-years enumerates the years the
+      catalog holds. On 2026-09-01 that was 2020 through 2027, with 2027 flagged current. Data for
+      an earlier year remains retrievable after the year ends, so the catalog accumulates rather
+      than rolling over.
+    observed_years: [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027]
+    current_year: 2027
+
+release:
+  cadence: annual, following the academic calendar
+  detail: >-
+    A new Shnaton is published for each academic year and becomes the current one via the
+    `current` flag on /reference-data/active-years. The 2027 catalog was already current and
+    populated when probed on 2026-09-01, ahead of the academic year it covers.
+  front_end_build:
+    asset: https://shnaton.huji.ac.il/assets/index-DcMgIxCt.js
+    bytes: 606643
+    detail: >-
+      A content-hashed Vite build artifact. The hash is the only release fingerprint the service
+      exposes — it changes when the front end is rebuilt and is the sole way an outside observer
+      can detect that the catalog was redeployed. It says nothing about the API behind it.
+
+deprecation:
+  policy: none published
+  sunset_header: not present
+  deprecation_header: not present
+  detail: >-
+    No Sunset or Deprecation header was returned on any response. Three paths present in the
+    front end's JavaScript — /api/courses, /api/department, /api/cornerstone-courses — return 404,
+    but these are client-side routes rather than retired endpoints, and should not be read as
+    evidence of a deprecation process.
+
+support:
+  status_page: none
+  changelog: none
+  developer_contact: none published
+  detail: >-
+    There is no developer channel for this API. The catalog's own footer links to
+    studentsadmin.huji.ac.il for student administrative contact and to a survey form at
+    www.huji.ac.il/shnatonOrbit/index.php/Survey; neither is an API support surface. A consumer
+    with a question about the contract has nowhere to ask.
+  observed_links:
+    - https://studentsadmin.huji.ac.il/
+    - https://studentsadmin.huji.ac.il/contactHuji
+
+stability_signals:
+  positive:
+    - The service is behind the university's own F5 load balancer estate and reports a server identity header (X-HujiShnatonServer), indicating a maintained multi-node deployment rather than a one-off.
+    - HSTS with a one-year max-age and includeSubDomains, plus nosniff and X-Frame-Options DENY, on API responses.
+    - The 2027 catalog was fully populated ahead of the academic year, indicating an active publishing process.
+    - TLS certificate procured through the GEANT TCS research-and-education chain and current (valid to 2026-12-09).
+  negative:
+    - No version, no changelog, no deprecation policy, no status page, no support channel.
+    - Two mutually incompatible error formats emitted from one service.
+    - The principal search operation is unpaginated and returned 14,153,560 bytes for one broad query, which is a scaling characteristic a consumer cannot mitigate through the API.
+    - No published documentation of any kind, so every consumer is reverse-engineering the same surface independently.
+
+x-consumer-guidance: >-
+  Treat this as an undocumented internal API that happens to be publicly reachable. It is stable
+  in the way a university registrar system is stable — it will keep working because the
+  university needs it to — but nothing about its shape is promised to anyone outside, and the
+  university has made no commitment a consumer could rely on. Pin nothing; re-derive the contract
+  before each academic year.

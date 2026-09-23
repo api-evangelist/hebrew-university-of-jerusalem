@@ -1,0 +1,118 @@
+# x-method: derived
+# x-source-url: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Identity Federation
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live fetch of https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php (SAML 2.0
+  EntityDescriptor, HTTP 200, application/xml, 4,548 bytes), archived verbatim alongside this
+  file as hebrew-university-of-jerusalem-idp-saml-metadata.xml; the embedded X.509 signing
+  certificate decoded and inspected with openssl; DNS and RIPE RDAP resolution of
+  idp.cc.huji.ac.il; and an unauthenticated request to https://cris.huji.ac.il/admin/workspace.xhtml
+  to observe which identity provider the university's own service providers hand off to.
+description: >-
+  The Hebrew University of Jerusalem's SAML 2.0 identity federation surface — and the
+  strongest institution-operated machine-readable contract found anywhere in this profile.
+  Unlike the several Australian and UK institutions whose apparently self-hosted identity
+  providers turn out to be managed federation tenancies terminating on cloud address space,
+  this one survives the ownership check completely: the entityID host resolves inside the
+  university's own legacy allocation on the Israeli academic network, and the metadata is
+  signed with a key the university issued to itself, naming its own IT authority in the
+  certificate subject.
+
+  It is also the only surface in this profile that carries a dated operational risk, and the
+  date is close: the signing certificate expires 2026-09-22, three weeks after this probe.
+
+federation:
+  national_network: ILAN — Israeli academic network
+  operator: IUCC — Israel Inter-University Computation Center (MACHBA)
+  autonomous_system: AS378 (MACHBA-AS)
+  detail: >-
+    Israeli higher education is networked through IUCC, which holds the 128.139.0.0/16 legacy
+    allocation the university's hosts sit in. IUCC operates the national research network and
+    the country's eduGAIN participation. Membership of an interfederation was NOT independently
+    confirmed in this run: technical.edugain.org timed out on every request made on 2026-09-01,
+    so no eduGAIN entity claim is recorded here. The identity provider below is evidenced
+    directly from its own published metadata and needs no federation aggregate to stand up.
+  edugain_entry_confirmed: false
+  edugain_probe:
+    url: https://technical.edugain.org/api.php
+    status: 0
+    note: Connection timed out after 25s on repeated attempts; unresolved, not negative.
+
+identity_provider:
+  name: Hebrew University of Jerusalem Identity Provider
+  entityID: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+  metadata_url: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+  metadata_status: 200
+  metadata_content_type: application/xml
+  metadata_bytes: 4548
+  archived_locally: identity-federation/hebrew-university-of-jerusalem-idp-saml-metadata.xml
+  implementation: SimpleSAMLphp
+  x-operator: institution
+  operator_basis: >-
+    Every check points the same way. idp.cc.huji.ac.il has NO CNAME — it resolves directly to
+    128.139.7.22, inside RIPE inetnum 128.139.0.0/16 "ILAN", registrant ORG-IIIC1-RIPE (IUCC),
+    announced by AS378 MACHBA-AS, with the /24 named "Big-IP-F5" for the university's own load
+    balancers. The metadata's signing certificate is self-issued by the institution:
+    O=Hebrew University, OU=The authority for computation,communication and information,
+    CN=idp1.cc.huji.ac.il, emailAddress=ssobox@cc.huji.ac.il. Nothing in the chain touches a
+    managed identity vendor, a CDN edge or cloud address space. This is the university running
+    SAML on the university's own infrastructure.
+  protocol_support: urn:oasis:names:tc:SAML:2.0:protocol
+  bindings:
+    - service: SingleSignOnService
+      binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+      location: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/SSOService.php
+    - service: SingleLogoutService
+      binding: urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect
+      location: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/SingleLogoutService.php
+  name_id_formats:
+    - urn:oasis:names:tc:SAML:2.0:nameid-format:emailAddress
+  key_descriptors:
+    - use: signing
+    - use: encryption
+  signing_certificate:
+    subject: 'C=IL, ST=Jerusalem, L=Jerusalem, O=Hebrew University, OU=The authority for computation,communication and information, CN=idp1.cc.huji.ac.il, emailAddress=ssobox@cc.huji.ac.il'
+    issuer: self-signed (same distinguished name as subject)
+    not_before: '2016-09-22T07:08:06Z'
+    not_after: '2026-09-22T07:08:06Z'
+    sha256_fingerprint: '1D:02:02:F3:1F:DD:7A:5B:F8:FE:A0:2D:2A:9E:5E:41:15:A2:E7:8B:58:61:0A:8C:A5:BC:EA:06:10:FC:47:1E'
+    x-observation: >-
+      A ten-year self-signed certificate issued 2016-09-22 and expiring 2026-09-22 — 21 days
+      after this probe. Recorded as a dated observation, not a judgement: SAML signing keys are
+      trusted by fingerprint through federation metadata rather than by a public CA chain, so
+      self-signing is normal practice and a rollover may already be scheduled. It is noted
+      because it is verifiable, time-bound, and would break every service provider that has
+      pinned this key if it lapses unrolled.
+
+service_providers:
+  - name: Hebrew University CRIS (Elsevier Pure) administrative surface
+    entityID: https://cris.huji.ac.il/admin
+    x-operator: tenant
+    detail: >-
+      An unauthenticated request to https://cris.huji.ac.il/admin/workspace.xhtml redirects to
+      the university's own IdP with spentityid=https://cris.huji.ac.il/admin. The service is
+      Elsevier's; the identity behind it is the university's. This is the clearest single piece
+      of evidence that the IdP fronts the institution's real estate rather than being a
+      standalone artifact.
+    evidence:
+      url: https://cris.huji.ac.il/admin/workspace.xhtml
+      status: 200
+      redirect_to: https://idp.cc.huji.ac.il/simplesaml/module.php/core/no_cookie.php
+
+x-not-found:
+  - host: shibboleth.huji.ac.il
+    status: 0
+    note: NXDOMAIN. The university runs SimpleSAMLphp, not Shibboleth — no Shibboleth conformance is claimed anywhere in this profile.
+  - host: idp.huji.ac.il
+    status: 0
+    note: NXDOMAIN. The identity provider is at idp.cc.huji.ac.il, under the IT authority's subdomain.
+  - host: login.huji.ac.il
+    status: 0
+    note: NXDOMAIN.

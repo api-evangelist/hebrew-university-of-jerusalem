@@ -1,0 +1,56 @@
+# x-method: derived
+# x-source-url: https://shnaton.huji.ac.il/api
+# Authored by API Evangelist from live probes of the Hebrew University of Jerusalem's own
+# hosts. NOT published by the institution. See `method:` below for how it was obtained.
+specification: API Evangelist Scopes
+specificationVersion: '0.1'
+provider: Hebrew University of Jerusalem
+providerId: hebrew-university-of-jerusalem
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probing of https://shnaton.huji.ac.il/api on 2026-09-01, and inspection of the
+  SAML 2.0 metadata at https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php.
+description: >-
+  Authorization scopes across the Hebrew University of Jerusalem's programmable surfaces.
+  There are none to record for the institution-operated API, and saying so is the finding
+  rather than a gap: the Shnaton course catalog API is entirely unauthenticated, so it has
+  no authorization model, no consent surface and no scope vocabulary. This file exists to
+  state that positively so the absence is not later mistaken for something unmeasured.
+
+scopes: []
+
+x-scope-model:
+  - surface: Shnaton Course Catalog API
+    baseURL: https://shnaton.huji.ac.il/api
+    x-operator: institution
+    model: none
+    detail: >-
+      No authentication means no authorization. Every operation is public and read-only;
+      no write operation of any kind was found in the catalog's own JavaScript client, which
+      issues only GET and a POST used as a search verb. The effective scope of an anonymous
+      caller is the entire published course catalog for every academic year the university
+      lists, currently 2020 through 2027.
+    effective_grant: read:everything-published
+    write_operations: none
+
+  - surface: Hebrew University SAML Identity Provider
+    entityID: https://idp.cc.huji.ac.il/simplesaml/saml2/idp/metadata.php
+    x-operator: institution
+    model: saml-attribute-release
+    detail: >-
+      Authorization on the institution's authenticated estate is expressed as SAML attribute
+      release from the university's IdP to each service provider, not as OAuth scopes. The
+      metadata published at the entityID is an IDPSSODescriptor; it declares the SSO bindings
+      and signing key but does not itself publish a per-service attribute-release policy, so
+      no scope vocabulary can be read from it without access the university does not grant
+      publicly.
+
+  - surface: Elsevier Pure CRIS web services
+    baseURL: https://cris.huji.ac.il/ws/api
+    x-operator: tenant
+    model: vendor-api-key
+    detail: >-
+      Pure's API authorization model is Elsevier's, not the university's, and its scope
+      vocabulary belongs in Elsevier's own profile. Recorded here only to mark why no scopes
+      are claimed for the Hebrew University from this surface.
