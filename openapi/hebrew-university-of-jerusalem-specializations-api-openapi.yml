@@ -155,6 +155,40 @@ paths:
                   type: object
                   additionalProperties: true
 components:
+  parameters:
+    CourseCodeQuery:
+      name: courseCode
+      in: query
+      required: true
+      description: Registrar course code.
+      schema:
+        type: string
+      example: '140713'
+    YearRequired:
+      name: year
+      in: query
+      required: true
+      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
+      schema:
+        type: integer
+      example: 2027
+    ThresholdYear:
+      name: thresholdYear
+      in: query
+      required: true
+      description: Year of entry a roadmap or requirement set is keyed to.
+      schema:
+        type: integer
+      example: 2027
+    NameQuery:
+      name: name
+      in: query
+      required: true
+      description: Search term. Validated server-side as 2–100 characters.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 100
   schemas:
     ProblemDetails:
       type: object
@@ -179,6 +213,15 @@ components:
         traceId:
           type: string
           description: W3C trace context identifier for the failed request.
+    CodedError:
+      type: object
+      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
+      properties:
+        code:
+          type: string
+          example: ERR_1101
+      required:
+      - code
     Specialization:
       type: object
       properties:
@@ -210,15 +253,6 @@ components:
       - id
       - code
       - name
-    CodedError:
-      type: object
-      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
-      properties:
-        code:
-          type: string
-          example: ERR_1101
-      required:
-      - code
     BilingualText:
       type: object
       description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
@@ -231,40 +265,6 @@ components:
           description: English text.
       required:
       - he
-  parameters:
-    NameQuery:
-      name: name
-      in: query
-      required: true
-      description: Search term. Validated server-side as 2–100 characters.
-      schema:
-        type: string
-        minLength: 2
-        maxLength: 100
-    ThresholdYear:
-      name: thresholdYear
-      in: query
-      required: true
-      description: Year of entry a roadmap or requirement set is keyed to.
-      schema:
-        type: integer
-      example: 2027
-    CourseCodeQuery:
-      name: courseCode
-      in: query
-      required: true
-      description: Registrar course code.
-      schema:
-        type: string
-      example: '140713'
-    YearRequired:
-      name: year
-      in: query
-      required: true
-      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
-      schema:
-        type: integer
-      example: 2027
   responses:
     CodedError:
       description: Application-coded error — a bare code object, no problem document.

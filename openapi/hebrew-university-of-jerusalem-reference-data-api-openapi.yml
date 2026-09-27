@@ -109,22 +109,25 @@ paths:
         '400':
           $ref: '#/components/responses/CodedError'
 components:
+  responses:
+    CodedError:
+      description: Application-coded error — a bare code object, no problem document.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CodedError'
   schemas:
-    AssignmentFilterOptions:
+    CodedTerm:
       type: object
+      description: A reference-data enumeration member.
       properties:
-        source:
+        code:
           type: string
-          example: gradeGroup
-        options:
-          type: array
-          items:
-            type: object
-            properties:
-              value:
-                type: string
-              name:
-                $ref: '#/components/schemas/BilingualText'
+        name:
+          $ref: '#/components/schemas/BilingualText'
+      required:
+      - code
+      - name
     CodedError:
       type: object
       description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
@@ -154,6 +157,21 @@ components:
       - id
       - year
       - hebrewYear
+    AssignmentFilterOptions:
+      type: object
+      properties:
+        source:
+          type: string
+          example: gradeGroup
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                $ref: '#/components/schemas/BilingualText'
     BilingualText:
       type: object
       description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
@@ -166,24 +184,6 @@ components:
           description: English text.
       required:
       - he
-    CodedTerm:
-      type: object
-      description: A reference-data enumeration member.
-      properties:
-        code:
-          type: string
-        name:
-          $ref: '#/components/schemas/BilingualText'
-      required:
-      - code
-      - name
-  responses:
-    CodedError:
-      description: Application-coded error — a bare code object, no problem document.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CodedError'
   parameters:
     YearRequired:
       name: year
