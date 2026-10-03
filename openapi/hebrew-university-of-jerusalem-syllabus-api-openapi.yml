@@ -45,14 +45,6 @@ paths:
                 $ref: '#/components/schemas/Syllabus'
 components:
   parameters:
-    YearRequired:
-      name: year
-      in: query
-      required: true
-      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
-      schema:
-        type: integer
-      example: 2027
     CourseCodeQuery:
       name: courseCode
       in: query
@@ -61,6 +53,14 @@ components:
       schema:
         type: string
       example: '140713'
+    YearRequired:
+      name: year
+      in: query
+      required: true
+      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
+      schema:
+        type: integer
+      example: 2027
   schemas:
     Syllabus:
       type: object

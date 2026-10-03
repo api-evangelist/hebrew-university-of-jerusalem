@@ -176,6 +176,25 @@ paths:
                   $ref: '#/components/schemas/StudySession'
 components:
   schemas:
+    CourseRequirements:
+      type: object
+      properties:
+        positiveRequirements:
+          type:
+          - object
+          - array
+          - 'null'
+          description: Courses that must be taken before this one.
+        negativeRequirements:
+          type:
+          - object
+          - array
+          - 'null'
+          description: Courses that exclude this one.
+        additionalRequirements:
+          type:
+          - boolean
+          - 'null'
     CourseSearchRequest:
       type: object
       description: Filter document for advanced course search. Members are those the catalog's own client assembles; the server tolerates a subset.
@@ -214,25 +233,6 @@ components:
             type: integer
       required:
       - year
-    CourseRequirements:
-      type: object
-      properties:
-        positiveRequirements:
-          type:
-          - object
-          - array
-          - 'null'
-          description: Courses that must be taken before this one.
-        negativeRequirements:
-          type:
-          - object
-          - array
-          - 'null'
-          description: Courses that exclude this one.
-        additionalRequirements:
-          type:
-          - boolean
-          - 'null'
     ProblemDetails:
       type: object
       description: RFC 9457 problem document as emitted by ASP.NET Core model validation.
@@ -256,18 +256,6 @@ components:
         traceId:
           type: string
           description: W3C trace context identifier for the failed request.
-    BilingualText:
-      type: object
-      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
-      properties:
-        he:
-          type: string
-          description: Hebrew text.
-        en:
-          type: string
-          description: English text.
-      required:
-      - he
     CourseGroup:
       type: object
       properties:
@@ -340,6 +328,83 @@ components:
       - id
       - code
       - courseId
+      - year
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
+    StudySession:
+      type: object
+      description: One timetabled meeting of a course group.
+      properties:
+        id:
+          type: integer
+        courseId:
+          type: integer
+        groupId:
+          type: integer
+        roomId:
+          type:
+          - integer
+          - 'null'
+        year:
+          type: integer
+        period:
+          type:
+          - integer
+          - 'null'
+        dayOfWeek:
+          type:
+          - integer
+          - 'null'
+          description: 1 = Sunday, the first day of the Israeli academic week.
+        startTime:
+          type:
+          - integer
+          - 'null'
+          description: Milliseconds after local midnight. 52200000 is 14:30.
+        endTime:
+          type:
+          - integer
+          - 'null'
+          description: Milliseconds after local midnight.
+        isRecorded:
+          type:
+          - boolean
+          - 'null'
+        isLiveBroadcast:
+          type:
+          - boolean
+          - 'null'
+        teachingTypeId:
+          type:
+          - integer
+          - 'null'
+        calendarFrequency:
+          type:
+          - string
+          - 'null'
+        teachers:
+          type: array
+          description: Assigned teaching staff. Carries named individuals — personal data. Retained here as a field description only; no teacher record is stored in this repository's examples.
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+            additionalProperties: true
+      required:
+      - id
+      - courseId
+      - groupId
       - year
     Course:
       type: object
@@ -431,71 +496,13 @@ components:
       - code
       - name
       - year
-    StudySession:
-      type: object
-      description: One timetabled meeting of a course group.
-      properties:
-        id:
-          type: integer
-        courseId:
-          type: integer
-        groupId:
-          type: integer
-        roomId:
-          type:
-          - integer
-          - 'null'
-        year:
-          type: integer
-        period:
-          type:
-          - integer
-          - 'null'
-        dayOfWeek:
-          type:
-          - integer
-          - 'null'
-          description: 1 = Sunday, the first day of the Israeli academic week.
-        startTime:
-          type:
-          - integer
-          - 'null'
-          description: Milliseconds after local midnight. 52200000 is 14:30.
-        endTime:
-          type:
-          - integer
-          - 'null'
-          description: Milliseconds after local midnight.
-        isRecorded:
-          type:
-          - boolean
-          - 'null'
-        isLiveBroadcast:
-          type:
-          - boolean
-          - 'null'
-        teachingTypeId:
-          type:
-          - integer
-          - 'null'
-        calendarFrequency:
-          type:
-          - string
-          - 'null'
-        teachers:
-          type: array
-          description: Assigned teaching staff. Carries named individuals — personal data. Retained here as a field description only; no teacher record is stored in this repository's examples.
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-            additionalProperties: true
-      required:
-      - id
-      - courseId
-      - groupId
-      - year
+  responses:
+    ProblemDetails:
+      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   parameters:
     CourseCodePath:
       name: courseCode
@@ -513,10 +520,3 @@ components:
       schema:
         type: integer
       example: 2027
-  responses:
-    ProblemDetails:
-      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'

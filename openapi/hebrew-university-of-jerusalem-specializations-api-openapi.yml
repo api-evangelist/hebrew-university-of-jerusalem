@@ -164,22 +164,6 @@ components:
       schema:
         type: string
       example: '140713'
-    YearRequired:
-      name: year
-      in: query
-      required: true
-      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
-      schema:
-        type: integer
-      example: 2027
-    ThresholdYear:
-      name: thresholdYear
-      in: query
-      required: true
-      description: Year of entry a roadmap or requirement set is keyed to.
-      schema:
-        type: integer
-      example: 2027
     NameQuery:
       name: name
       in: query
@@ -189,7 +173,54 @@ components:
         type: string
         minLength: 2
         maxLength: 100
+    ThresholdYear:
+      name: thresholdYear
+      in: query
+      required: true
+      description: Year of entry a roadmap or requirement set is keyed to.
+      schema:
+        type: integer
+      example: 2027
+    YearRequired:
+      name: year
+      in: query
+      required: true
+      description: Academic year in Gregorian form, as returned by `/reference-data/active-years`.
+      schema:
+        type: integer
+      example: 2027
   schemas:
+    Specialization:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          $ref: '#/components/schemas/BilingualText'
+        learningProgramName:
+          $ref: '#/components/schemas/BilingualText'
+        learningProgramDisplayName:
+          $ref: '#/components/schemas/BilingualText'
+        learningProgramCode:
+          type: string
+        learningProgramSortOrder:
+          type: integer
+        thresholds:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        academicInfo:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+      required:
+      - id
+      - code
+      - name
     ProblemDetails:
       type: object
       description: RFC 9457 problem document as emitted by ASP.NET Core model validation.
@@ -222,37 +253,6 @@ components:
           example: ERR_1101
       required:
       - code
-    Specialization:
-      type: object
-      properties:
-        id:
-          type: integer
-        code:
-          type: string
-        name:
-          $ref: '#/components/schemas/BilingualText'
-        learningProgramName:
-          $ref: '#/components/schemas/BilingualText'
-        learningProgramDisplayName:
-          $ref: '#/components/schemas/BilingualText'
-        learningProgramCode:
-          type: string
-        learningProgramSortOrder:
-          type: integer
-        thresholds:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        academicInfo:
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-      required:
-      - id
-      - code
-      - name
     BilingualText:
       type: object
       description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.

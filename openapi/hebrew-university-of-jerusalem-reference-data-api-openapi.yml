@@ -117,26 +117,6 @@ components:
           schema:
             $ref: '#/components/schemas/CodedError'
   schemas:
-    CodedTerm:
-      type: object
-      description: A reference-data enumeration member.
-      properties:
-        code:
-          type: string
-        name:
-          $ref: '#/components/schemas/BilingualText'
-      required:
-      - code
-      - name
-    CodedError:
-      type: object
-      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
-      properties:
-        code:
-          type: string
-          example: ERR_1101
-      required:
-      - code
     AcademicYear:
       type: object
       properties:
@@ -157,6 +137,27 @@ components:
       - id
       - year
       - hebrewYear
+    CodedError:
+      type: object
+      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
+      properties:
+        code:
+          type: string
+          example: ERR_1101
+      required:
+      - code
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
     AssignmentFilterOptions:
       type: object
       properties:
@@ -172,18 +173,17 @@ components:
                 type: string
               name:
                 $ref: '#/components/schemas/BilingualText'
-    BilingualText:
+    CodedTerm:
       type: object
-      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      description: A reference-data enumeration member.
       properties:
-        he:
+        code:
           type: string
-          description: Hebrew text.
-        en:
-          type: string
-          description: English text.
+        name:
+          $ref: '#/components/schemas/BilingualText'
       required:
-      - he
+      - code
+      - name
   parameters:
     YearRequired:
       name: year
