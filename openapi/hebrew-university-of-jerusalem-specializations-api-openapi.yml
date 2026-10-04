@@ -156,6 +156,14 @@ paths:
                   additionalProperties: true
 components:
   parameters:
+    ThresholdYear:
+      name: thresholdYear
+      in: query
+      required: true
+      description: Year of entry a roadmap or requirement set is keyed to.
+      schema:
+        type: integer
+      example: 2027
     CourseCodeQuery:
       name: courseCode
       in: query
@@ -173,14 +181,6 @@ components:
         type: string
         minLength: 2
         maxLength: 100
-    ThresholdYear:
-      name: thresholdYear
-      in: query
-      required: true
-      description: Year of entry a roadmap or requirement set is keyed to.
-      schema:
-        type: integer
-      example: 2027
     YearRequired:
       name: year
       in: query
@@ -189,6 +189,19 @@ components:
       schema:
         type: integer
       example: 2027
+  responses:
+    CodedError:
+      description: Application-coded error — a bare code object, no problem document.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CodedError'
+    ProblemDetails:
+      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
     Specialization:
       type: object
@@ -265,16 +278,3 @@ components:
           description: English text.
       required:
       - he
-  responses:
-    CodedError:
-      description: Application-coded error — a bare code object, no problem document.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CodedError'
-    ProblemDetails:
-      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'

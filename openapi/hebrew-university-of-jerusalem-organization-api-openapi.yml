@@ -60,18 +60,6 @@ paths:
                   $ref: '#/components/schemas/LearningProgram'
 components:
   schemas:
-    BilingualText:
-      type: object
-      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
-      properties:
-        he:
-          type: string
-          description: Hebrew text.
-        en:
-          type: string
-          description: English text.
-      required:
-      - he
     LearningProgram:
       type: object
       properties:
@@ -103,3 +91,15 @@ components:
       - id
       - code
       - name
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
