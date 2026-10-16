@@ -2,22 +2,27 @@
   "repo": "hebrew-university-of-jerusalem",
   "feeds": [
     {
-      "source": "https://en.huji.ac.il/",
-      "feed_url": "https://en.huji.ac.il/latest-news",
-      "title": "Hebrew University of Jerusalem - Latest News",
-      "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "source": "https://en.huji.ac.il/feed",
+      "feed_url": "https://en.huji.ac.il/feed",
+      "title": "",
+      "saved": 1,
+      "method": "feed"
     },
     {
-      "source": "https://en.libraries.huji.ac.il/",
-      "feed_url": "https://en.libraries.huji.ac.il/news",
-      "title": "HUJI Library Authority - News",
+      "source": "https://en.libraries.huji.ac.il/news",
+      "feed_url": "https://en.libraries.huji.ac.il/news.rss",
+      "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "discovered"
+    },
+    {
+      "source": "https://en.huji.ac.il/latest-news",
+      "feed_url": "https://en.huji.ac.il/latest-news",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-10-03T12:15:37Z"
+  "post_count": 1,
+  "fetched": "2026-10-10T13:15:00Z"
 }
