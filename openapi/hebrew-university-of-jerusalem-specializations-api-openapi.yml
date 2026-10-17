@@ -156,22 +156,6 @@ paths:
                   additionalProperties: true
 components:
   parameters:
-    ThresholdYear:
-      name: thresholdYear
-      in: query
-      required: true
-      description: Year of entry a roadmap or requirement set is keyed to.
-      schema:
-        type: integer
-      example: 2027
-    CourseCodeQuery:
-      name: courseCode
-      in: query
-      required: true
-      description: Registrar course code.
-      schema:
-        type: string
-      example: '140713'
     NameQuery:
       name: name
       in: query
@@ -181,6 +165,14 @@ components:
         type: string
         minLength: 2
         maxLength: 100
+    CourseCodeQuery:
+      name: courseCode
+      in: query
+      required: true
+      description: Registrar course code.
+      schema:
+        type: string
+      example: '140713'
     YearRequired:
       name: year
       in: query
@@ -189,20 +181,24 @@ components:
       schema:
         type: integer
       example: 2027
-  responses:
-    CodedError:
-      description: Application-coded error — a bare code object, no problem document.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CodedError'
-    ProblemDetails:
-      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
+    ThresholdYear:
+      name: thresholdYear
+      in: query
+      required: true
+      description: Year of entry a roadmap or requirement set is keyed to.
+      schema:
+        type: integer
+      example: 2027
   schemas:
+    CodedError:
+      type: object
+      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
+      properties:
+        code:
+          type: string
+          example: ERR_1101
+      required:
+      - code
     Specialization:
       type: object
       properties:
@@ -234,6 +230,18 @@ components:
       - id
       - code
       - name
+    BilingualText:
+      type: object
+      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
+      properties:
+        he:
+          type: string
+          description: Hebrew text.
+        en:
+          type: string
+          description: English text.
+      required:
+      - he
     ProblemDetails:
       type: object
       description: RFC 9457 problem document as emitted by ASP.NET Core model validation.
@@ -257,24 +265,16 @@ components:
         traceId:
           type: string
           description: W3C trace context identifier for the failed request.
+  responses:
+    ProblemDetails:
+      description: ASP.NET Core validation failure, returned as an RFC 9457 problem document with a `type` pointing at RFC 9110 section 15.5.1.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
     CodedError:
-      type: object
-      description: Application-coded error. Carries a `code` only — no message, no title, no trace id. Observed as `{"code":"ERR_1101"}` when a required `year` parameter is omitted.
-      properties:
-        code:
-          type: string
-          example: ERR_1101
-      required:
-      - code
-    BilingualText:
-      type: object
-      description: Every human-readable string in this API. Hebrew is the primary member; the English member is usually present but may be an empty string.
-      properties:
-        he:
-          type: string
-          description: Hebrew text.
-        en:
-          type: string
-          description: English text.
-      required:
-      - he
+      description: Application-coded error — a bare code object, no problem document.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CodedError'
