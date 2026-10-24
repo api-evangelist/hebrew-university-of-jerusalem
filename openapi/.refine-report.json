@@ -1,9 +1,15 @@
 {
   "provider": "hebrew-university-of-jerusalem",
   "sources": [
+    "_original/hebrew-university-of-jerusalem-openapi.yml",
     "_original/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml"
   ],
   "outputs": [
+    "hebrew-university-of-jerusalem-authority-control-tasks-api-openapi.yml",
+    "hebrew-university-of-jerusalem-lending-requests-api-openapi.yml",
+    "hebrew-university-of-jerusalem-printouts-api-openapi.yml",
+    "hebrew-university-of-jerusalem-requested-resources-api-openapi.yml",
+    "hebrew-university-of-jerusalem-test-api-openapi.yml",
     "hebrew-university-of-jerusalem-courses-api-openapi.yml",
     "hebrew-university-of-jerusalem-organization-api-openapi.yml",
     "hebrew-university-of-jerusalem-reference-data-api-openapi.yml",
@@ -16,9 +22,10 @@
   "warnings": [],
   "notes": [
     "1 archived document(s) dropped as subsets of other archived documents",
-    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "hebrew-university-of-jerusalem-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "hebrew-university-of-jerusalem-shnaton-course-catalog-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "apis.yml register: written (+5 apis, 16 total)"
   ],
   "skipped": [
     "_original/hebrew-university-of-jerusalem-shnaton-course-catalog-openapi_2.yml: archived document superseded by a larger archived document",
