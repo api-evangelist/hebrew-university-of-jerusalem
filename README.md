@@ -1,4 +1,4 @@
-# Hebrew University of Jerusalem (hebrew-university-of-jerusalem)
+# Hebrew University of Jerusalem
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,61 +64,137 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-The Hebrew University of Jerusalem (HUJI) is Israel's leading research university, ranked #272 in the QS World University Rankings 2025, with campuses in Jerusalem, Rehovot, and Eilat. This repository catalogs HUJI's public developer/API footprint as an APIs.json provider profile for the api-evangelist organization. HUJI does not operate a dedicated public developer portal or documented open API program; its developer-relevant surface is limited to standards-based academic infrastructure and research-lab open-source code.
+The Hebrew University of Jerusalem (HUJI, האוניברסיטה העברית בירושלים) is Israel's leading research university, founded in 1918 and operating campuses in Jerusalem, Rehovot and Eilat across the humanities, sciences, medicine, agriculture and law. It publishes no developer portal, no API documentation, no API keys and no terms of use for machine access — api.huji.ac.il, developer.huji.ac.il and data.huji.ac.il do not resolve at all. What it does operate, on its own infrastructure and without anyone advertising it, are two genuinely institution-run programmable surfaces. The first is the JSON API behind Shnaton, the official course catalog at shnaton.huji.ac.il: fully public, entirely unauthenticated, bilingual Hebrew/English, covering faculties, degree programs, specializations, courses, timetabled study sessions and syllabi for academic years 2020 through 2027, with a single unauthenticated search call returning the whole 6,355-course catalog in one 14 MB response. The second is the university's own SAML 2.0 identity provider at idp.cc.huji.ac.il, which publishes live machine-readable metadata signed with a certificate the institution issued to itself. Both were confirmed institution-operated by IP ownership rather than hostname — they resolve inside the 128.139.0.0/16 ILAN allocation registered to IUCC and announced by AS378, behind the university's own load balancers. Beyond those two, the footprint is tenancy: the research portal at cris.huji.ac.il is Elsevier Pure (a CNAME to huji.elsevierpure.com) and its working OAI-PMH endpoint is Pure's engineering, and library discovery runs on Ex Libris Primo under institution code 972HUJI_INST. Those relationships are recorded here; their vendors' contracts deliberately are not.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/hebrew-university-of-jerusalem/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=hebrew-university-of-jerusalem-api-evangelist&utm_content=repo
+**Areas:** University · Higher Education · Education · Research · Israel · Jerusalem · Course Catalog · Identity Federation · Research Repository · Library · SAML · OAI-PMH
 
-## Type
+## Hebrew University of Jerusalem on APIs.io
 
-- Index
-- Consumer
-- 3rd-Party
+Everything profiled for Hebrew University of Jerusalem is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hebrew-university-of-jerusalem/](https://apis.io/providers/hebrew-university-of-jerusalem/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (11)
 
-Education, Higher Education, University, Research, Library, Israel
+- [Hebrew University of Jerusalem SAML 2.0 Identity Provider](https://apis.io/apis/hebrew-university-of-jerusalem/saml-idp/) — The university's own SimpleSAMLphp identity provider, publishing a live SAML 2.0 EntityDescriptor (HTTP 200, application/xml, 4,548 bytes) with…
+- [HUJI Research Portal / CRIS (Elsevier Pure tenant)](https://apis.io/apis/hebrew-university-of-jerusalem/cris-pure/) — The university's current research information system and research-output portal at cris.huji.ac.il, running on Elsevier Pure. It publishes a working OAI-PMH…
+- [HUJI Library Discovery (Ex Libris Primo tenant)](https://apis.io/apis/hebrew-university-of-jerusalem/primo-discovery/) — Library discovery for the Hebrew University's library system, running on Ex Libris Primo under institution code 972HUJI_INST with named views 972HUJI_V1…
+- [Crossref member registration](https://apis.io/apis/hebrew-university-of-jerusalem/crossref-members/) — Two Hebrew University units are registered Crossref members with their own member ids: Hebrew University Magnes Press (member 2773) and the Institute of…
+- [Research Organization Registry (ROR) record](https://apis.io/apis/hebrew-university-of-jerusalem/ror/) — The institution's ROR identifier, https://ror.org/03qxff017, resolved from the ROR v2 API on 2026-09-01. The canonical machine-readable identifier for the…
+- [Hebrew University of Jerusalem Courses API](https://apis.io/apis/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-courses-api/) — Course search, course groups, timetabled study sessions and prerequisites.
+- [Hebrew University of Jerusalem Organization API](https://apis.io/apis/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-organization-api/) — The university's academic structure — faculties, departments and degree programs.
+- [Hebrew University of Jerusalem Reference Data API](https://apis.io/apis/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-reference-data-api/) — Enumerations the catalog is indexed by — academic years, languages, session types, assignment filters.
+- [Hebrew University of Jerusalem Service API](https://apis.io/apis/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-service-api/) — Service health.
+- [Hebrew University of Jerusalem Specializations API](https://apis.io/apis/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-specializations-api/) — Specializations, units and yearly study roadmaps.
+- [Hebrew University of Jerusalem Syllabus API](https://apis.io/apis/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-syllabus-api/) — Per-course syllabus documents.
 
-## APIs
+### Published properties
 
-- **HUJI Library Discovery (Ex Libris Primo/Alma)** — Library catalog/discovery on Ex Libris Primo/Alma (HUfind). Standard Primo/Alma APIs and OAI-PMH exist but require institution-issued keys; not publicly self-service. Docs: https://en.libraries.huji.ac.il/
-- **OpenScholar @ HUJI** — Drupal-based profile/CMS platform for faculty, labs, and projects. Internal authoring tool; no documented public developer API confirmed. Docs: https://scholars.huji.ac.il/
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Plans
+#### JSON Schema (1)
 
-- plans/hebrew-university-of-jerusalem-plans-pricing.yml
+The data models the API reads and writes.
 
-## Rate Limits
+- [Hebrew University of Jerusalem Shnaton Course Catalog — Schemas](https://apis.io/schemas/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-shnaton-schemas/)
 
-- rate-limits/hebrew-university-of-jerusalem-rate-limits.yml
+#### JSON-LD (2)
 
-## FinOps
+Linked-data contexts for the provider's vocabulary.
 
-- finops/hebrew-university-of-jerusalem-finops.yml
+- [Hebrew University Of Jerusalem Context](https://apis.io/jsonld/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-context/)
+- [Hebrew University Of Jerusalem Shnaton Course Catalog Context](https://apis.io/jsonld/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-shnaton-course-catalog/)
 
-## Timestamps
+#### Governance rules (1)
 
-- Created: 2026-06-03
-- Modified: 2026-06-03
+Spectral rulesets for the provider's contracts.
 
-## Common Properties
+- [Hebrew University of Jerusalem — shnaton rules](https://apis.io/rules/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-shnaton-rules/)
 
-- Website: https://en.huji.ac.il/
-- GitHub: https://github.com/huji-nlp
-- LinkedIn: https://www.linkedin.com/school/hebrew-university-of-jerusalem/
-- Plans: plans/hebrew-university-of-jerusalem-plans-pricing.yml
-- Rate Limits: rate-limits/hebrew-university-of-jerusalem-rate-limits.yml
-- FinOps: finops/hebrew-university-of-jerusalem-finops.yml
-- Review: review.yml
+#### Security (2)
 
-## Notes
+Authentication, trust centre, and vulnerability disclosure.
 
-- No dedicated public developer portal or self-service API was found for HUJI.
-- Library discovery runs on Ex Libris Primo/Alma, which provides standard APIs/OAI-PMH but requires institution-issued credentials and is not publicly self-service.
-- Single sign-on uses Shibboleth/SAML and is internal/gated.
-- HUJI research labs publish open-source code on GitHub (e.g., huji-nlp, slp-rl); these are code repositories, not institutional REST APIs. The GitHub common property points to the most prominent lab org as the closest public code presence.
-- All listed URLs were probed; no endpoints were fabricated. See review.yml for HTTP statuses.
+- [Hebrew University Of Jerusalem Authentication](https://apis.io/security/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-authentication/)
+- [Hebrew University Of Jerusalem Domain Security](https://apis.io/security/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-domain-security/)
 
-## Maintainers
+#### OAuth scopes (1)
 
-- Kin Lane — kin@apievangelist.com
+The permissions the API asks for.
+
+- [Hebrew University Of Jerusalem Scopes](https://apis.io/scopes/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Hebrew University Of Jerusalem Plans Pricing](https://apis.io/plans/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Hebrew University Of Jerusalem Rate Limits](https://apis.io/rate-limits/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Hebrew University Of Jerusalem Finops](https://apis.io/finops/hebrew-university-of-jerusalem/hebrew-university-of-jerusalem-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://en.huji.ac.il/)
+
+## API Evangelist rating
+
+**Kin Score 21.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 23.4 |
+| Contract governance | 15.2 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 5.3 |
+
+**Agent readiness 18.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 26.5** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hebrew-university-of-jerusalem/](https://apis.io/providers/hebrew-university-of-jerusalem/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Hebrew University of Jerusalem: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hebrew-university-of-jerusalem/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
